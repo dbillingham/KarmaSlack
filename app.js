@@ -9,25 +9,27 @@ var app = express();
 
 var config = require('./config.js')[env];
 
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.post('/test', function(req, res){
   
-	//var channelName = req.body.channel_name;
-  var a = req.body.text;
+	var channelName = req.body.channel_name;
+  	//var a = req.body.text;
+	  
 	var slackRes = new Slack();
 	slackRes.setWebhook("https://hooks.slack.com/services/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");
 	
 	slackRes.webhook({
-	  channel: "#random",
+	  channel: "#" + channelName,
 	  username: "webhookbot",
-	  text: "This is posted to #general and comes from a bot named webhookbot. " + a
+	  text: "This is posted to #general and comes from a bot named webhookbot. "
 	}, function(err, response) {
 	  console.log(response);
 	});
 	
   
-  /*
-   
-	res.send("working");*/
+ 
+	//res.send("working");
 });
 
 app.listen(config.port, function(){
