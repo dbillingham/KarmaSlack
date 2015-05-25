@@ -15,7 +15,7 @@ app.post('/test', function(req, res){
 	slackRes.setWebhook("https://hooks.slack.com/services/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");
 	
 	slackRes.webhook({
-	  channel: "#general",
+	  channel: "#random",
 	  username: "webhookbot",
 	  text: "This is posted to #general and comes from a bot named webhookbot."
 	}, function(err, response) {
