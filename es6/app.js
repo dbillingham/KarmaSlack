@@ -20,7 +20,7 @@ app.post('/test',  (req, res) => {
 	var slackResponse = `Response: ${user}`;
 	
 	//Test valid text value
-	var karmaPattern = new RegExp("((karma: @)([a-z0-9]+ )(\+\+|\-\-))");
+	var karmaPattern = /((karma: @)([a-z0-9]+ )(\+\+|\-\-))/g;
 	if(!karmaPattern.test(text)){
 		slackResponse = `Invalid: ${text} | Format Example: karma: @user ++`;
 	}
