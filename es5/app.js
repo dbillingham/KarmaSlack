@@ -37,7 +37,8 @@ app.post('/test', function (req, res) {
 	var slackResponse = 'Response: ' + text;
 
 	//Test valid text value
-	var karmaPattern = /((karma: @)([a-z0-9]+ )(\+\+|\-\-))/g;
+	//var karmaPattern = /((karma: @)([a-z0-9]+ )(\+\+|\-\-))/g;
+	var karmaPattern = /((karma: <b class="mention">)(@[a-z0-9]+)(<\/b> )(\+\+|\-\-))/g;
 	if (!karmaPattern.test(text)) {
 		slackResponse = 'Invalid: ' + text + ' | Format Example: karma: @user ++';
 	}
