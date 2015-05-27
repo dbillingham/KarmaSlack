@@ -16,6 +16,9 @@ app.use(BodyParser.urlencoded({ extended: true }));
 app.post('/test',  (req, res) => {
 	
 	var channelName = req.body.channel_name;
+	var text = req.body.text;
+	
+	var user = text.replace('karma:', '');
 	
 	var slackRes = new Slack();
 	slackRes.setWebhook("https://hooks.slack.com/services/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");
@@ -23,7 +26,7 @@ app.post('/test',  (req, res) => {
 	slackRes.webhook({
 	  channel: "#" + channelName,
 	  username: "webhookbot",
-	  text: "This is posted to #general and comes from a bot named webhookbot. "
+	  text: `Response: ${user}`
 	}, (err, response) => {
 	  console.log(response);
 	});
