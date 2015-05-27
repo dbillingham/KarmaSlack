@@ -17,7 +17,7 @@ app.post('/test',  (req, res) => {
 	
 	var channelName = req.body.channel_name;
 	var text = req.body.text;
-	var slackResponse = `Response: ${user}`;
+	var slackResponse = `Response: ${text}`;
 	
 	//Test valid text value
 	var karmaPattern = /((karma: @)([a-z0-9]+ )(\+\+|\-\-))/g;
