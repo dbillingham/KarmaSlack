@@ -1,4 +1,5 @@
 export default class Config {
+	
 	constructor() {
 		this._env = process.env.NODE_ENV || 'development';
 	}
