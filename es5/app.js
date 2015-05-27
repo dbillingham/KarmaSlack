@@ -46,7 +46,7 @@ app.post('/test', function (req, res) {
 	});
 });
 
-app.listen('3000', function () {
+app.listen(config.port, function () {
 	return console.log('Running on port ' + config.port);
 });
 //# sourceMappingURL=app.js.map

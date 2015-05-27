@@ -29,5 +29,5 @@ app.post('/test',  (req, res) => {
 	});
 });
 
-app.listen('3000', 
+app.listen(config.port, 
 	() => console.log(`Running on port ${config.port}`));
