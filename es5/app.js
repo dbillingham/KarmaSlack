@@ -50,7 +50,7 @@ app.post('/test', function (req, res) {
 	slackRes.webhook({
 		channel: '#' + channelName,
 		username: 'webhookbot',
-		text: slackResponse
+		text: slackResponse + '   |||||| ' + text
 	}, function (err, response) {
 		console.log(response);
 	});
