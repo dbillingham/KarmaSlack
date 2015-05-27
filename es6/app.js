@@ -17,8 +17,15 @@ app.post('/test',  (req, res) => {
 	
 	var channelName = req.body.channel_name;
 	var text = req.body.text;
+	var slackResponse = `Response: ${user}`;
 	
-	var user = text.replace('karma:', '');
+	//Test valid text value
+	var karmaPattern = new RegExp("((karma: @)([a-z0-9]+ )(\+\+|\-\-))");
+	if(!karmaPattern.test(text)){
+		slackResponse = `Invalid: ${text} | Format Example: karma: @user ++`;
+	}
+	
+	//var user = text.replace('karma:', '');
 	
 	var slackRes = new Slack();
 	slackRes.setWebhook("https://hooks.slack.com/services/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");
@@ -26,11 +33,11 @@ app.post('/test',  (req, res) => {
 	slackRes.webhook({
 	  channel: "#" + channelName,
 	  username: "webhookbot",
-	  text: `Response: ${user}`
+	  text: slackResponse
 	}, (err, response) => {
 	  console.log(response);
 	});
 });
-
+//((karma: @)([a-z0-9]+ )(\+\+|\-\-))
 app.listen(config.port, 
 	() => console.log(`Running on port ${config.port}`));
