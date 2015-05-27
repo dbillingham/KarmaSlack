@@ -3,8 +3,11 @@ import Express from 'express';
 import BodyParser from 'body-parser';
 import Slack from 'slack-node';
 import Config from '../es5/config.js'; 
-//import { mongoose } from 'mongoose';
+//import Mongoose from 'mongoose';
 
+var mongoose = require('mongoose'),
+	Contact = require('../es5/contact.model.js');
+	
 install();
 
 var app = Express();
@@ -19,9 +22,40 @@ app.post('/test',  (req, res) => {
 	var text = req.body.text;
 	var slackResponse = `Response: ${text}`;
 	
+	
+	
+	
+	
+	
+	mongoose.connect(config.db);
+	
+	var db = mongoose.connection;
+	
+	db.on('error', console.error.bind(console, 'connection error...'));
+	db.once('open', function callback(){
+		console.log('db opened');
+	});
+	
+	Contact.find({}).remove().exec();
+	
+	Contact.find({}).exec(function(err, collection){
+	        Contact.create({
+	          "name":text,
+	        });	
+	});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	//Test valid text value
-	//var karmaPattern = /((karma: @)([a-z0-9]+ )(\+\+|\-\-))/g;
-	var karmaPattern = /((karma: <b class="mention">)(@[a-z0-9]+)(<\/b> )(\+\+|\-\-))/g;
+	var karmaPattern = /((karma: @)([a-z0-9]+ )(\+\+|\-\-))/g;
+	//var karmaPattern = /((karma: <b class="mention">)(@[a-z0-9]+)(<\/b> )(\+\+|\-\-))/g;
 	if(!karmaPattern.test(text)){
 		slackResponse = `Invalid: ${text} | Format Example: karma: @user ++`;
 	}

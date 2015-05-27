@@ -20,7 +20,10 @@ var _es5ConfigJs = require('../es5/config.js');
 
 var _es5ConfigJs2 = _interopRequireDefault(_es5ConfigJs);
 
-//import { mongoose } from 'mongoose';
+//import Mongoose from 'mongoose';
+
+var mongoose = require('mongoose'),
+    Contact = require('../es5/contact.model.js');
 
 (0, _sourceMapSupport.install)();
 
@@ -36,9 +39,25 @@ app.post('/test', function (req, res) {
 	var text = req.body.text;
 	var slackResponse = 'Response: ' + text;
 
+	mongoose.connect(config.db);
+
+	var db = mongoose.connection;
+
+	db.on('error', console.error.bind(console, 'connection error...'));
+	db.once('open', function callback() {
+		console.log('db opened');
+	});
+
+	Contact.find({}).remove().exec();
+
+	Contact.find({}).exec(function (err, collection) {
+		Contact.create({
+			'name': text });
+	});
+
 	//Test valid text value
-	//var karmaPattern = /((karma: @)([a-z0-9]+ )(\+\+|\-\-))/g;
-	var karmaPattern = /((karma: <b class="mention">)(@[a-z0-9]+)(<\/b> )(\+\+|\-\-))/g;
+	var karmaPattern = /((karma: @)([a-z0-9]+ )(\+\+|\-\-))/g;
+	//var karmaPattern = /((karma: <b class="mention">)(@[a-z0-9]+)(<\/b> )(\+\+|\-\-))/g;
 	if (!karmaPattern.test(text)) {
 		slackResponse = 'Invalid: ' + text + ' | Format Example: karma: @user ++';
 	}
