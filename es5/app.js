@@ -20,13 +20,25 @@ var _es5ConfigJs = require('../es5/config.js');
 
 var _es5ConfigJs2 = _interopRequireDefault(_es5ConfigJs);
 
-var _es5KarmamongooseJs = require('../es5/karmamongoose.js');
-
-var _es5KarmamongooseJs2 = _interopRequireDefault(_es5KarmamongooseJs);
-
 var _es5KarmaModelJs = require('../es5/karma.model.js');
 
 var _es5KarmaModelJs2 = _interopRequireDefault(_es5KarmaModelJs);
+
+var _es5ConfigModelJs = require('../es5/config.model.js');
+
+var _es5ConfigModelJs2 = _interopRequireDefault(_es5ConfigModelJs);
+
+var _es5MongooseServiceJs = require('../es5/mongoose.service.js');
+
+var _es5MongooseServiceJs2 = _interopRequireDefault(_es5MongooseServiceJs);
+
+var _es5KarmaServiceJs = require('../es5/karma.service.js');
+
+var _es5KarmaServiceJs2 = _interopRequireDefault(_es5KarmaServiceJs);
+
+var _es5ConfigServiceJs = require('../es5/config.service.js');
+
+var _es5ConfigServiceJs2 = _interopRequireDefault(_es5ConfigServiceJs);
 
 (0, _sourceMapSupport.install)();
 
@@ -35,66 +47,53 @@ app.use(_bodyParser2['default'].urlencoded({ extended: true }));
 
 var config = new _es5ConfigJs2['default']();
 
-var karmaMongoose = new _es5KarmamongooseJs2['default'](config);
-karmaMongoose.init();
+var mongooseService = new _es5MongooseServiceJs2['default'](config);
+mongooseService.init();
 
-var add = function add(teamId, userName) {
+var karmaService = new _es5KarmaServiceJs2['default']();
 
-	return _es5KarmaModelJs2['default'].create({
-		'teamId': teamId,
-		'userName': userName }).then(function () {
+//Karma commands
+/*
+karmaService.add("111", "DAN", "Craigssss").then((data)=>{
+	
+	console.log(data);
+	
+	karmaService.remove("111", "DAN", "ccc").then((data)=>{
 
-		return userCount(teamId, userName, 'increased');
-	});
-};
+		console.log(data);
 
-var remove = function remove(teamId, userName) {
-
-	return _es5KarmaModelJs2['default'].deleteLatestPoint(teamId, userName).then(function () {
-
-		return userCount(teamId, userName, 'decreased');
-	});
-};
-
-var userCount = function userCount(teamId, userName, incDec) {
-
-	return _es5KarmaModelJs2['default'].points(teamId, userName).then(function (collection) {
-		var response = '' + userName + ' has a karma of ' + collection.length + '!';
-
-		if (incDec) {
-			response = '' + userName + 's karma has ' + incDec + ' to ' + collection.length + '!';
-		}
-
-		console.log(response);
-	});
-};
-
-add('111', 'DAN').then(function () {
-
-	remove('111', 'DAN').then(function () {
-
-		userCount('111', 'DAN');
+		karmaService.userCount("111", "DAN")
+			.then((data) => console.log(data));
+			
+		karmaService.teamCount("111")
+			.then((data) => console.log(data));
 	});
 });
+*/
+
+//Regsiter
+
+var configService = new _es5ConfigServiceJs2['default']();
+
+//karma: init https://hooks.slack.com/services/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
+
 /*
-console.log("1");
-add("111", "DAN")
-.then(()=>{
-	console.log("3");
-	remove("111", "DAN");
-})
+var configModel = new ConfigModel({
+	teamId: "12345",
+	teamDomain: "dans teamss",
+	inboundWebhook: "https://hooks.slack.com/services/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",
+	outboundToken: "25LnEy4vXHEi88PlrLvg6htP"
+});
+
+configService.register(configModel)
+	.then((data) => console.log(data))
+	.catch((data) => console.log(data));
 
 
-var promise = new Promise((resolve,reject) => {
-	add("111", "DAN").then(resolve(2));
-	console.log("1");
-	//resolve(2);
-}).then((a)=>{
-	console.log(a);
-	remove("111", "DAN");
-})*/
-
-var teamCount = function teamCount(teamId, userName) {};
+configService.register("12345","dans teamss","https://hooks.slack.com/services/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")
+	.then((data) => console.log(data))
+	.catch((data) => console.log(data));
+*/
 
 //app.post('/test2',  (req, res) => {
 
@@ -123,13 +122,171 @@ KarmaModel.points("111","BRETT", function(err, collection){
 
 //});
 
-app.post('/test', function (req, res) {
+function parseJson(str) {
 
-	var channelName = req.body.channel_name;
-	var text = req.body.text;
-	var slackResponse = 'Response: ' + text;
+	return new Promise(function (res, rej) {
+
+		try {
+			res(JSON.parse(str));
+		} catch (e) {
+			rej();
+		}
+	});
+}
+
+function authenticate(teamId, token) {
+
+	return new Promise(function (res, rej) {
+
+		var configService = new _es5ConfigServiceJs2['default']();
+
+		configService.getConfig(teamId).then(function (data) {
+
+			if (!data) {
+				rej('No config found.');
+			}
+
+			if (token !== data.outboundToken) {
+				rej('Invalid token.');
+			}
+
+			res();
+		})['catch'](function (err) {
+
+			rej(err);
+		});
+	});
+}
+
+app.post('/karma', function (req, res) {
 
 	/*
+ REQUEST
+ 	token=XXXXXXXXXXXXXXXXXX
+ 	team_id=T0001
+ 	team_domain=example
+ 	channel_id=C2147483705
+ 	channel_name=test
+ 	timestamp=1355517523.000005
+ 	user_id=U2147483697
+ 	user_name=Steve
+ 	text=karma: <!everyone> ++
+ 	trigger_word=karma:
+ */
+
+	//Needs to be a class
+	var slackData = {
+		token: req.body.token,
+		teamId: req.body.team_id,
+		teamDomain: req.body.team_domain,
+		channelId: req.body.channel_id,
+		channelName: req.body.channel_name,
+		timestamp: req.body.timestamp,
+		userId: req.body.user_id,
+		userName: req.body.user_name,
+		originalText: req.body.text,
+		text: req.body.text.replace(req.body.trigger_word, '').trim(),
+		triggerWord: req.body.trigger_word
+	};
+
+	var configService = new _es5ConfigServiceJs2['default']();
+
+	var helpPattern = /(\?)/g,
+	    initPattern = /((init \{)([\s\S]*)(\}))/g,
+	    userNamePattern = /<!(.*?)>/g,
+	    posPattern = /((<!)([a-z0-9]+)(> )(\+\+))/g,
+	    negPattern = /((<!)([a-z0-9]+)(> )(\-\-))/g;
+
+	var slackResponse = 'Invalid Command. For help see; karma: ?';
+
+	//Help
+
+	if (helpPattern.test(slackData.text)) {
+		slackResponse = 'How to use karma:';
+		slackResponse += '\n Positive karma = karma: @user ++';
+		slackResponse += '\n Negative karma = karma: @user --';
+		slackResponse += '\n User karma = karma: @user';
+		slackResponse += '\n Team karma = karma: team';
+		slackResponse += '\n Setup karma = karma: init {';
+		slackResponse += '\n  "inboundWebhook": "https://hooks.slack.com/services/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"';
+		slackResponse += '\n  "outboundToken": "25LnEy4vXHEi88Plrpvg6htP';
+		slackResponse += '\n }';
+		res.send(slackResponse);
+	}
+
+	//Init
+
+	if (initPattern.test(slackData.text)) {
+
+		var jsonString = slackData.text.replace('init', '').trim();
+
+		parseJson(jsonString).then(function (data) {
+
+			var configModel = new _es5ConfigModelJs2['default']({
+				teamId: slackData.teamId,
+				teamDomain: slackData.teamDomain,
+				inboundWebhook: data.inboundWebhook || '',
+				outboundToken: data.outboundToken || ''
+			});
+
+			configService.register(configModel).then(function (data) {
+				slackResponse = data;
+				res.send(slackResponse);
+			})['catch'](function (data) {
+				slackResponse = data;
+				res.send(slackResponse);
+			});
+		})['catch'](function () {
+			slackResponse = 'Invalid init JSON. For help see; karma: ?';
+			res.send(slackResponse);
+		});
+	}
+
+	//Positive karma
+
+	if (posPattern.test(slackData.text)) {
+
+		authenticate(slackData.teamId, slackData.token).then(function () {
+
+			var userName = userNamePattern.exec(slackData.text)[1];
+
+			karmaService.add(slackData.teamId, userName, slackData.userName).then(function (data) {
+				res.send(data);
+			});
+		})['catch'](function (err) {
+
+			res.send(err);
+		});
+	}
+
+	//Negative karma
+
+	if (negPattern.test(slackData.text)) {
+
+		authenticate(slackData.teamId, slackData.token).then(function () {
+
+			var userName = userNamePattern.exec(slackData.text)[1];
+
+			karmaService.remove(slackData.teamId, userName, slackData.userName).then(function (data) {
+				res.send(data);
+			});
+		})['catch'](function (err) {
+
+			res.send(err);
+		});
+	}
+
+	//Team Total
+
+	/*
+ var channelName = req.body.channel_name;
+ var text = req.body.text;
+ 
+ 
+ 
+ 
+ 
+ 
  
  mongoose.connect(config.db);
  
@@ -150,25 +307,26 @@ app.post('/test', function (req, res) {
  
  */
 
-	//Test valid text value
-	var karmaPattern = /((karma: <!)([a-z0-9]+)(> )(\+\+|\-\-))/g;
-
-	if (!karmaPattern.test(text)) {
-		slackResponse = 'Invalid: ' + text + ' | Format Example: karma: @user ++';
-	}
-
-	//var user = text.replace('karma:', '');
-
-	var slackRes = new _slackNode2['default']();
-	slackRes.setWebhook('https://hooks.slack.com/services/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');
-
-	slackRes.webhook({
-		channel: '#' + channelName,
-		username: 'webhookbot',
-		text: slackResponse + '   |||||| ' + text
-	}, function (err, response) {
-		console.log(response);
-	});
+	/*
+ 
+ 
+ //Test valid text value
+ 
+ 
+ 
+ 
+ //var user = text.replace('karma:', '');
+ 
+ var slackRes = new Slack();
+ slackRes.setWebhook("https://hooks.slack.com/services/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");
+ 
+ slackRes.webhook({
+   channel: "#" + channelName,
+   username: "webhookbot",
+   text: slackResponse + "   |||||| " + text
+ }, (err, response) => {
+   console.log(response);
+ });*/
 });
 //((karma: @)([a-z0-9]+ )(\+\+|\-\-))
 app.listen(config.port, function () {

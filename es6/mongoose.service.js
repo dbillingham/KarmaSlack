@@ -1,7 +1,7 @@
 import Mongoose from 'mongoose';
 import KarmaModel from '../es5/karma.model.js'; 
 
-export default class KarmaMongoose{
+export default class MongooseService{
 	
 	constructor(config) {
 		

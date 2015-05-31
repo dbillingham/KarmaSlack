@@ -18,60 +18,40 @@ var _mongooseClassWrapper = require('mongoose-class-wrapper');
 
 var _mongooseClassWrapper2 = _interopRequireDefault(_mongooseClassWrapper);
 
-var karmaSchema = _mongoose2['default'].Schema({
+var configSchema = _mongoose2['default'].Schema({
 	teamId: String,
-	userName: String,
-	fromUserName: String,
+	teamDomain: String,
+	inboundWebhook: String,
+	outboundToken: String,
 	created: { type: Date, 'default': Date.now }
 });
 
-var KarmaModel = (function () {
-	function KarmaModel() {
-		_classCallCheck(this, KarmaModel);
+var ConfigModel = (function () {
+	function ConfigModel() {
+		_classCallCheck(this, ConfigModel);
 	}
 
-	_createClass(KarmaModel, null, [{
-		key: 'getUserPoints',
-		value: function getUserPoints(teamId, userName) {
-			return this.find({ teamId: teamId, userName: userName });
-		}
-	}, {
-		key: 'getTeamPoints',
-		value: function getTeamPoints(teamId) {
-			var _this = this;
+	_createClass(ConfigModel, null, [{
+		key: 'update',
+		value: function update(data) {
 
-			return new Promise(function (res, rej) {
+			/*
+   	We have to remove the newly assigned _id as mongo wont update
+   	when a model has a differnet _id
+   */
 
-				_this.aggregate([{
-					$match: { teamId: teamId }
-				}, {
-					$group: {
-						_id: '$userName',
-						count: { $sum: 1 }
-					}
-				}], function (err, collection) {
-					res(collection);
-				});
-			});
-		}
-	}, {
-		key: 'deleteLatestPoint',
-		value: function deleteLatestPoint(teamId, userName, fromUserName) {
-			return this.findOneAndRemove({ teamId: teamId, userName: userName, fromUserName: fromUserName }, { sort: { created: 'asc' } });
+			data = data.toObject();
+			delete data['_id'];
+
+			return this.findOneAndUpdate({ 'teamId': data.teamId }, data, { upsert: true });
 		}
 	}]);
 
-	return KarmaModel;
+	return ConfigModel;
 })();
 
-/*
-schema.statics.nameContains = function(name, cb){
-	return this.find({name: new RegExp(name, 'i')}, cb);	
-};
-*/
+configSchema.plugin(_mongooseClassWrapper2['default'], ConfigModel);
 
-karmaSchema.plugin(_mongooseClassWrapper2['default'], KarmaModel);
-
-exports['default'] = _mongoose2['default'].model('Karma', karmaSchema);
+exports['default'] = _mongoose2['default'].model('Config', configSchema);
 module.exports = exports['default'];
-//# sourceMappingURL=karma.model.js.map
+//# sourceMappingURL=config.model.js.map

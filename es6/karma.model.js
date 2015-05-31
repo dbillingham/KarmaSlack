@@ -10,12 +10,33 @@ var karmaSchema = Mongoose.Schema({
 
 class KarmaModel {
 
-	static points(teamId, userName){
+	static getUserPoints(teamId, userName){
 		return this.find({ teamId, userName });
 	}
 	
-	static deleteLatestPoint(teamId, userName){
-		return this.findOneAndRemove({ teamId, userName }, 
+	static getTeamPoints(teamId){
+		
+		return new Promise((res,rej) =>{
+			
+			this.aggregate([
+			    {
+					$match: {teamId}
+				},{
+				    $group : {
+						_id: '$userName',
+						count: { $sum: 1 }
+				    }
+				}
+			], function(err, collection){
+				res(collection);
+			});
+				
+			
+		});
+	}
+	
+	static deleteLatestPoint(teamId, userName, fromUserName){
+		return this.findOneAndRemove({ teamId, userName, fromUserName }, 
 		{sort: {created: 'asc'}});
 	}
 }
