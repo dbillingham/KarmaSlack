@@ -161,6 +161,61 @@ function sendResponse(slackData, message, res) {
 }
 
 app.post('/karma', function (req, res) {
+	/*
+ var slackData = {
+ 	token: req.body.token,
+ 	teamId: req.body.team_id,
+ 	teamDomain: req.body.team_domain,
+ 	channelId: req.body.channel_id,
+ 	channelName: req.body.channel_name,
+ 	timestamp: req.body.timestamp,
+ 	userId: req.body.user_id,
+ 	userName: req.body.user_name,
+ 	originalText: req.body.text,
+ 	text: req.body.text.replace(req.body.trigger_word, '').trim(),
+ 	triggerWord: req.body.trigger_word
+ };*/
+
+	//let jsonString = slackData.text.replace("init", '').trim();
+	var aService = new _es5ConfigServiceJs2['default']();
+
+	var configModel = new _es5ConfigModelJs2['default']({
+		teamId: '111',
+		teamDomain: '2222',
+		inboundWebhook: '333',
+		outboundToken: '444'
+	});
+
+	aService.register(configModel);
+	res.send('done');
+
+	/*
+ parseJson(jsonString)
+ 	.then((data)=>{
+ 		//console.log("data 1: " + data);
+ 		let configModel = new ConfigModel({
+ 			teamId: slackData.teamId,
+ 			teamDomain: slackData.teamDomain,
+ 			inboundWebhook: data.inboundWebhook || '',
+ 			outboundToken: data.outboundToken || ''
+ 		});
+ 
+ 		configService.register(configModel);
+ 			.then((data) => {
+ 				//console.log("data 2: " + data);
+ 				//sendResponse(slackData, data, res);
+ 			})
+ 			.catch((data) => {
+ 				//console.log("data 3: " + data);
+ 				//sendResponse(slackData, data, res);
+ 			});
+ 			
+ 	}).catch(()=>{
+ 		//sendResponse(slackData, "Invalid init JSON. For help see; karma: ?", res);
+ 	});*/
+});
+
+app.post('/karma2', function (req, res) {
 
 	/*
  REQUEST
