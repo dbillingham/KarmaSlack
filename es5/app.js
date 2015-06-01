@@ -97,6 +97,8 @@ configService.register("12345","dans teamss","https://hooks.slack.com/services/T
 
 function parseJson(str) {
 
+	str = str.replace(/\\"/g, '"');
+
 	return new Promise(function (res, rej) {
 
 		try {
