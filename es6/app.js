@@ -138,7 +138,7 @@ function sendResponse(slackData, message, res){
 
 
 app.post('/karma',  (req, res) => {
-	
+	/*
 	var slackData = {
 		token: req.body.token,
 		teamId: req.body.team_id,
@@ -151,7 +151,7 @@ app.post('/karma',  (req, res) => {
 		originalText: req.body.text,
 		text: req.body.text.replace(req.body.trigger_word, '').trim(),
 		triggerWord: req.body.trigger_word
-	};
+	};*/
 	
 	//let jsonString = slackData.text.replace("init", '').trim();
 	var aService = new ConfigService();

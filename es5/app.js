@@ -161,20 +161,20 @@ function sendResponse(slackData, message, res) {
 }
 
 app.post('/karma', function (req, res) {
-
-	var slackData = {
-		token: req.body.token,
-		teamId: req.body.team_id,
-		teamDomain: req.body.team_domain,
-		channelId: req.body.channel_id,
-		channelName: req.body.channel_name,
-		timestamp: req.body.timestamp,
-		userId: req.body.user_id,
-		userName: req.body.user_name,
-		originalText: req.body.text,
-		text: req.body.text.replace(req.body.trigger_word, '').trim(),
-		triggerWord: req.body.trigger_word
-	};
+	/*
+ var slackData = {
+ 	token: req.body.token,
+ 	teamId: req.body.team_id,
+ 	teamDomain: req.body.team_domain,
+ 	channelId: req.body.channel_id,
+ 	channelName: req.body.channel_name,
+ 	timestamp: req.body.timestamp,
+ 	userId: req.body.user_id,
+ 	userName: req.body.user_name,
+ 	originalText: req.body.text,
+ 	text: req.body.text.replace(req.body.trigger_word, '').trim(),
+ 	triggerWord: req.body.trigger_word
+ };*/
 
 	//let jsonString = slackData.text.replace("init", '').trim();
 	var aService = new _es5ConfigServiceJs2['default']();
