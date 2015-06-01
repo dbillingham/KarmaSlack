@@ -135,7 +135,6 @@ function authenticate(teamId, token) {
 
 function sendResponse(slackData, message, res) {
 
-	console.log('message: ' + message);
 	if (!message) {
 		message = 'Invalid Command. For help see; karma: ?';
 	}
@@ -146,7 +145,8 @@ function sendResponse(slackData, message, res) {
 
 	var teamConfig = configService.getConfig(slackData.teamId);
 
-	if (teamConfig.outboundWebhook) {
+	//if(teamConfig.outboundWebhook){
+	if ('https://hooks.slack.com/services/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') {
 
 		slackRes.setWebhook(teamConfig.outboundWebhook);
 
@@ -255,15 +255,14 @@ app.post('/karma', function (req, res) {
 	if (initPattern.test(slackData.text)) {
 
 		var configArray = slackData.text.replace(': init', '').trim().split(' ');
-		console.log(configArray[0]);
-		console.log(configArray[1]);
+
 		/*
   parseJson(jsonString)
   	.then((data)=>{
   */
 		var configModel = new _es5ConfigModelJs2['default']({
 			teamId: slackData.teamId,
-			teamDomain: configArray,
+			teamDomain: slackData.teamDomain,
 			inboundWebhook: configArray[1] || '',
 			outboundToken: configArray[0] || ''
 		});
