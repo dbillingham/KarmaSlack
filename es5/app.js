@@ -144,7 +144,7 @@ function sendResponse(slackData, message, res) {
 
 	configService.getConfig(slackData.teamId).then(function (data) {
 
-		data.inboundWebhook = 'https://hooks.slack.com/services/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';
+		//data.inboundWebhook = "https://hooks.slack.com/services/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";
 
 		if (data.inboundWebhook) {
 
@@ -232,9 +232,10 @@ app.post('/karma', function (req, res) {
 
 	var helpPattern = /(\?)/,
 	    initPattern = /((init \{)([\s\S]*)(\}))/,
-	    userNamePattern = /<@(.*?)>/,
-	    everyoneUserNamePattern = /<!(.*?)>/,
-	    posPattern = /((<!)([a-z0-9]+)(> )(\+\+))/,
+	    userNamePattern = /<!(.*?)>/,
+	   
+	//everyoneUserNamePattern = /<!(.*?)>/,
+	posPattern = /((<!)([a-z0-9]+)(> )(\+\+))/,
 	    negPattern = /((<!)([a-z0-9]+)(> )(\-\-))/;
 
 	//Help
