@@ -250,6 +250,15 @@ app.post('/karma',  (req, res) => {
 		posPattern = /((<@)([a-z0-9]+)(> )(\+\+))/,
 		negPattern = /((<@)([a-z0-9]+)(> )(\-\-))/;
 	
+	
+		sendResponse(slackData, "1. pos:"+ slackData.text, res);
+	
+				karmaService.add(slackData.teamId, slackData.text, slackData.userName)
+				.then((data)=>{			
+					sendResponse(slackData, data, res);
+				});
+	
+	
 	//Help
 
 	if(helpPattern.test(slackData.text)){
@@ -302,14 +311,9 @@ app.post('/karma',  (req, res) => {
 	//Positive karma
 	
 	
-	sendResponse(slackData, "1. pos:"+ slackData.text, res);
+
 	
-				karmaService.add(slackData.teamId, slackData.text, slackData.userName)
-				.then((data)=>{			
-					sendResponse(slackData, data, res);
-				});
-	
-	
+	/*
 	if(posPattern.test(slackData.text)){
 		
 		sendResponse(slackData, "2. pos", res);
@@ -327,7 +331,7 @@ app.post('/karma',  (req, res) => {
 			
 			sendResponse(slackData, err, res);
 		});
-	}
+	}*/
 /*	
 	//Negative karma
 	
