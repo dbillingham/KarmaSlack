@@ -116,6 +116,7 @@ function sendResponse(slackData, message, res){
 	
 	//res.send(message);
 	
+	
 	let slackRes = new Slack();
 	
 	configService.getConfig(slackData.teamId).then((data)=>{
