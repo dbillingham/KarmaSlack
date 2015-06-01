@@ -116,7 +116,6 @@ function sendResponse(slackData, message, res){
 	
 	//res.send(message);
 	
-	
 	let slackRes = new Slack();
 	
 	configService.getConfig(slackData.teamId).then((data)=>{
@@ -238,7 +237,7 @@ app.post('/karma',  (req, res) => {
 		userId: req.body.user_id,
 		userName: req.body.user_name,
 		originalText: req.body.text,
-		text: req.body.text.replace(req.body.trigger_word + ':', '').trim(),
+		text: req.body.text.replace(req.body.trigger_word, '').trim(),
 		triggerWord: req.body.trigger_word
 	};
 	
@@ -247,7 +246,6 @@ app.post('/karma',  (req, res) => {
 	let helpPattern = /(\?)/,
 		initPattern = /((init \{)([\s\S]*)(\}))/,
 		userNamePattern = /<!(.*?)>/,
-		//everyoneUserNamePattern = /<!(.*?)>/,
 		posPattern = /((<!)([a-z0-9]+)(> )(\+\+))/,
 		negPattern = /((<!)([a-z0-9]+)(> )(\-\-))/;
 	
@@ -270,7 +268,7 @@ app.post('/karma',  (req, res) => {
 	
 	if(initPattern.test(slackData.text)){
 		
-		let configJsonString = slackData.text.replace("init", '').trim();
+		let configJsonString = slackData.text.replace(": init", '').trim();
 		
 		parseJson(configJsonString)
 			.then((data)=>{
@@ -301,34 +299,24 @@ app.post('/karma',  (req, res) => {
 	}
 	
 	//Positive karma
-	/*
-	sendResponse(slackData, "1. pos:"+ slackData.text, res);
-	
-				karmaService.add(slackData.teamId, slackData.text, slackData.userName)
-				.then((data)=>{			
-					sendResponse(slackData, data, res);
-				});
-	*/
 	
 	if(posPattern.test(slackData.text)){
 		
-		sendResponse(slackData, "2. pos", res);
-		
 		//authenticate(slackData.teamId, slackData.token).then(()=>{
-/*
+
 			let userName = userNamePattern.exec(slackData.text)[1];
 			
 			karmaService.add(slackData.teamId, userName, slackData.userName)
 				.then((data)=>{			
 					sendResponse(slackData, data, res);
 				});
-*/				
+				
 		/*}).catch((err)=>{
 			
 			sendResponse(slackData, err, res);
 		});*/
 	}
-/*	
+	
 	//Negative karma
 	
 	if(negPattern.test(slackData.text)){
@@ -375,7 +363,6 @@ app.post('/karma',  (req, res) => {
 			sendResponse(slackData, err, res);
 		});
 	}
-*/	
 });
 
 app.listen(config.port, 
