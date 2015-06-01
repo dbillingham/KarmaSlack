@@ -258,7 +258,7 @@ app.post('/karma',  (req, res) => {
 		slackResponse += "\n User karma = karma: @user";
 		slackResponse += "\n Team karma = karma: @everyone";
 		slackResponse += "\n Setup karma = karma: init {";
-		slackResponse += "\n  \"inboundWebhook\": \"https://hooks.slack.com/services/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\"";
+		slackResponse += "\n  \"inboundWebhook\": \"https://hooks.slack.com/services/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\",";
 		slackResponse += "\n  \"outboundToken\": \"25LnEy4vXHEi88Plrpvg6htP";
 		slackResponse += "\n }";
 		sendResponse(slackData, slackResponse, res);
@@ -302,7 +302,7 @@ app.post('/karma',  (req, res) => {
 	
 	if(posPattern.test(slackData.text)){
 		
-		authenticate(slackData.teamId, slackData.token).then(()=>{
+		//authenticate(slackData.teamId, slackData.token).then(()=>{
 
 			let userName = userNamePattern.exec(slackData.text)[1];
 			
@@ -311,10 +311,10 @@ app.post('/karma',  (req, res) => {
 					sendResponse(slackData, data, res);
 				});
 				
-		}).catch((err)=>{
+		/*}).catch((err)=>{
 			
 			sendResponse(slackData, err, res);
-		});
+		});*/
 	}
 	
 	//Negative karma

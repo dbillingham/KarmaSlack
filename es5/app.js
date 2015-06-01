@@ -245,7 +245,7 @@ app.post('/karma', function (req, res) {
 		slackResponse += '\n User karma = karma: @user';
 		slackResponse += '\n Team karma = karma: @everyone';
 		slackResponse += '\n Setup karma = karma: init {';
-		slackResponse += '\n  "inboundWebhook": "https://hooks.slack.com/services/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"';
+		slackResponse += '\n  "inboundWebhook": "https://hooks.slack.com/services/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",';
 		slackResponse += '\n  "outboundToken": "25LnEy4vXHEi88Plrpvg6htP';
 		slackResponse += '\n }';
 		sendResponse(slackData, slackResponse, res);
@@ -285,17 +285,18 @@ app.post('/karma', function (req, res) {
 
 	if (posPattern.test(slackData.text)) {
 
-		authenticate(slackData.teamId, slackData.token).then(function () {
+		//authenticate(slackData.teamId, slackData.token).then(()=>{
 
-			var userName = userNamePattern.exec(slackData.text)[1];
+		var userName = userNamePattern.exec(slackData.text)[1];
 
-			karmaService.add(slackData.teamId, userName, slackData.userName).then(function (data) {
-				sendResponse(slackData, data, res);
-			});
-		})['catch'](function (err) {
-
-			sendResponse(slackData, err, res);
+		karmaService.add(slackData.teamId, userName, slackData.userName).then(function (data) {
+			sendResponse(slackData, data, res);
 		});
+
+		/*}).catch((err)=>{
+  	
+  	sendResponse(slackData, err, res);
+  });*/
 	}
 
 	//Negative karma
