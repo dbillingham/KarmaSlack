@@ -299,7 +299,7 @@ app.post('/karma',  (req, res) => {
 	}
 	
 	//Positive karma
-	sendResponse(slackData, "1. pos", res);
+	sendResponse(slackData, "1. pos:"+ slackData.text, res);
 	if(posPattern.test(slackData.text)){
 		
 		sendResponse(slackData, "2. pos", res);
