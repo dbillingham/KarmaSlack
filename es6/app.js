@@ -302,7 +302,15 @@ app.post('/karma',  (req, res) => {
 	
 	//Positive karma
 	
-			let userName = userNamePattern.exec(slackData.text)[1];
+
+	
+
+	
+	
+	if(posPattern.test(slackData.text)){
+		
+		
+					let userName = userNamePattern.exec(slackData.text)[1];
 	sendResponse(slackData, "0.5. pos:"+ userName, res);
 	
 		let slackA = new Slack("xoxp-5035951778-5035951784-5155303862-e889d0");
@@ -318,11 +326,10 @@ app.post('/karma',  (req, res) => {
 				});
 				
 		});
-	
-
-	
-	
-	if(posPattern.test(slackData.text)){
+		
+		
+		
+		
 		
 		//sendResponse(slackData, "2. pos:"+ slackData.text, res);
 		
