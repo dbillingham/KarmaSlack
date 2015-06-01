@@ -176,27 +176,42 @@ app.post('/karma', function (req, res) {
 		triggerWord: req.body.trigger_word
 	};
 
-	var jsonString = slackData.text.replace('init', '').trim();
+	//let jsonString = slackData.text.replace("init", '').trim();
+	var aService = new _es5ConfigServiceJs2['default']();
 
-	parseJson(jsonString).then(function (data) {
-		//console.log("data 1: " + data);
-		var configModel = new _es5ConfigModelJs2['default']({
-			teamId: slackData.teamId,
-			teamDomain: slackData.teamDomain,
-			inboundWebhook: data.inboundWebhook || '',
-			outboundToken: data.outboundToken || ''
-		});
+	var configModel = new _es5ConfigModelJs2['default']({
+		teamId: '111',
+		teamDomain: '2222',
+		inboundWebhook: '333',
+		outboundToken: '444'
+	});
 
-		configService.register(configModel);
-		/*.then((data) => {
-  	//console.log("data 2: " + data);
-  	//sendResponse(slackData, data, res);
-  })
-  .catch((data) => {
-  	//console.log("data 3: " + data);
-  	//sendResponse(slackData, data, res);
-  });*/
-	})['catch'](function () {});
+	aService.register(configModel);
+
+	/*
+ parseJson(jsonString)
+ 	.then((data)=>{
+ 		//console.log("data 1: " + data);
+ 		let configModel = new ConfigModel({
+ 			teamId: slackData.teamId,
+ 			teamDomain: slackData.teamDomain,
+ 			inboundWebhook: data.inboundWebhook || '',
+ 			outboundToken: data.outboundToken || ''
+ 		});
+ 
+ 		configService.register(configModel);
+ 			.then((data) => {
+ 				//console.log("data 2: " + data);
+ 				//sendResponse(slackData, data, res);
+ 			})
+ 			.catch((data) => {
+ 				//console.log("data 3: " + data);
+ 				//sendResponse(slackData, data, res);
+ 			});
+ 			
+ 	}).catch(()=>{
+ 		//sendResponse(slackData, "Invalid init JSON. For help see; karma: ?", res);
+ 	});*/
 });
 
 app.post('/karma2', function (req, res) {
@@ -343,6 +358,4 @@ app.post('/karma2', function (req, res) {
 app.listen(config.port, function () {
 	return console.log('Running on port ' + config.port);
 });
-
-//sendResponse(slackData, "Invalid init JSON. For help see; karma: ?", res);
 //# sourceMappingURL=app.js.map
