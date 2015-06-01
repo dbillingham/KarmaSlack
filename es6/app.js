@@ -292,7 +292,7 @@ let configArray = slackData.text.replace(": init", '').trim().replace(/"/g, '');
 					});
 					
 			}).catch(()=>{
-				sendResponse(slackData, "Invalid init JSON. For help see; karma: ?", res);
+				sendResponse(slackData, "Invalid init JSON. For help see; karma: ?" + configArray, res);
 			});
 	}
 	

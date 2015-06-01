@@ -253,31 +253,33 @@ app.post('/karma', function (req, res) {
 	//Init
 
 	if (initPattern.test(slackData.text)) {
+		(function () {
 
-		//let configArray = slackData.text.replace(": init", '').trim().replace(/"/g, '').split(' ');
-		var configArray = slackData.text.replace(': init', '').trim().replace(/"/g, '');
+			//let configArray = slackData.text.replace(": init", '').trim().replace(/"/g, '').split(' ');
+			var configArray = slackData.text.replace(': init', '').trim().replace(/"/g, '');
 
-		parseJson(configArray).then(function (data) {
+			parseJson(configArray).then(function (data) {
 
-			var configModel = new _es5ConfigModelJs2['default']({
-				teamId: slackData.teamId,
-				teamDomain: slackData.teamDomain,
-				inboundWebhook: data.inboundWebhook || '',
-				outboundToken: data.outboundToken || ''
-				//inboundWebhook: configArray[1] || '',
-				//outboundToken: configArray[0] || ''
+				var configModel = new _es5ConfigModelJs2['default']({
+					teamId: slackData.teamId,
+					teamDomain: slackData.teamDomain,
+					inboundWebhook: data.inboundWebhook || '',
+					outboundToken: data.outboundToken || ''
+					//inboundWebhook: configArray[1] || '',
+					//outboundToken: configArray[0] || ''
+				});
+
+				configService.register(configModel).then(function (data) {
+
+					sendResponse(slackData, data, res);
+				})['catch'](function (data) {
+
+					sendResponse(slackData, data, res);
+				});
+			})['catch'](function () {
+				sendResponse(slackData, 'Invalid init JSON. For help see; karma: ?' + configArray, res);
 			});
-
-			configService.register(configModel).then(function (data) {
-
-				sendResponse(slackData, data, res);
-			})['catch'](function (data) {
-
-				sendResponse(slackData, data, res);
-			});
-		})['catch'](function () {
-			sendResponse(slackData, 'Invalid init JSON. For help see; karma: ?', res);
-		});
+		})();
 	}
 
 	//Positive karma
