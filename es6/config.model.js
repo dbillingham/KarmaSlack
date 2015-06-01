@@ -6,6 +6,7 @@ var configSchema = Mongoose.Schema({
 	teamDomain: String,
 	inboundWebhook: String,
 	outboundToken: String,
+	apiToken: String,
 	created: {type: Date, default: Date.now}
 });
 

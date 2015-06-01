@@ -281,7 +281,8 @@ app.post('/karma',  (req, res) => {
 					teamId: slackData.teamId,
 					teamDomain: slackData.teamDomain,
 					inboundWebhook: data.inboundWebhook || '',
-					outboundToken: data.outboundToken || ''
+					outboundToken: data.outboundToken || '',
+					apiToken: data.apiToken || ''
 				});
 
 				configService.register(configModel)
