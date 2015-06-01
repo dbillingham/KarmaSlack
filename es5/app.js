@@ -133,6 +133,7 @@ function authenticate(teamId, token) {
 
 function sendResponse(slackData, message, res) {
 
+	console.log('message: ' + message);
 	if (!message) {
 		message = 'Invalid Command. For help see; karma: ?';
 	}
@@ -201,16 +202,16 @@ app.post('/karma', function (req, res) {
 	//Help
 
 	if (helpPattern.test(slackData.text)) {
-		var _slackResponse = 'How to use karma:';
-		_slackResponse += '\n Positive karma = karma: @user ++';
-		_slackResponse += '\n Negative karma = karma: @user --';
-		_slackResponse += '\n User karma = karma: @user';
-		_slackResponse += '\n Team karma = karma: @everyone';
-		_slackResponse += '\n Setup karma = karma: init {';
-		_slackResponse += '\n  "inboundWebhook": "https://hooks.slack.com/services/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"';
-		_slackResponse += '\n  "outboundToken": "25LnEy4vXHEi88Plrpvg6htP';
-		_slackResponse += '\n }';
-		sendResponse(slackData, _slackResponse, res);
+		var slackResponse = 'How to use karma:';
+		slackResponse += '\n Positive karma = karma: @user ++';
+		slackResponse += '\n Negative karma = karma: @user --';
+		slackResponse += '\n User karma = karma: @user';
+		slackResponse += '\n Team karma = karma: @everyone';
+		slackResponse += '\n Setup karma = karma: init {';
+		slackResponse += '\n  "inboundWebhook": "https://hooks.slack.com/services/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"';
+		slackResponse += '\n  "outboundToken": "25LnEy4vXHEi88Plrpvg6htP';
+		slackResponse += '\n }';
+		sendResponse(slackData, slackResponse, res);
 	}
 
 	//Init
@@ -220,7 +221,7 @@ app.post('/karma', function (req, res) {
 		var jsonString = slackData.text.replace('init', '').trim();
 
 		parseJson(jsonString).then(function (data) {
-
+			console.log('data 1: ' + data);
 			var configModel = new _es5ConfigModelJs2['default']({
 				teamId: slackData.teamId,
 				teamDomain: slackData.teamDomain,
@@ -229,15 +230,14 @@ app.post('/karma', function (req, res) {
 			});
 
 			configService.register(configModel).then(function (data) {
-				slackResponse = data;
-				sendResponse(slackData, slackResponse, res);
+				console.log('data 2: ' + data);
+				sendResponse(slackData, data, res);
 			})['catch'](function (data) {
-				slackResponse = data;
-				sendResponse(slackData, slackResponse, res);
+				console.log('data 3: ' + data);
+				sendResponse(slackData, data, res);
 			});
 		})['catch'](function () {
-			slackResponse = 'Invalid init JSON. For help see; karma: ?';
-			sendResponse(slackData, slackResponse, res);
+			sendResponse(slackData, 'Invalid init JSON. For help see; karma: ?', res);
 		});
 	}
 

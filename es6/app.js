@@ -109,6 +109,7 @@ function authenticate(teamId, token){
 
 function sendResponse(slackData, message, res){
 	
+	console.log("message: " + message);
 	if(!message){
 		message = "Invalid Command. For help see; karma: ?";
 	}
@@ -197,7 +198,7 @@ app.post('/karma',  (req, res) => {
 		
 		parseJson(jsonString)
 			.then((data)=>{
-					
+				console.log("data 1: " + data);
 				let configModel = new ConfigModel({
 					teamId: slackData.teamId,
 					teamDomain: slackData.teamDomain,
@@ -207,17 +208,16 @@ app.post('/karma',  (req, res) => {
 
 				configService.register(configModel)
 					.then((data) => {
-						slackResponse = data;
-						sendResponse(slackData, slackResponse, res);
+						console.log("data 2: " + data);
+						sendResponse(slackData, data, res);
 					})
 					.catch((data) => {
-						slackResponse = data;
-						sendResponse(slackData, slackResponse, res);
+						console.log("data 3: " + data);
+						sendResponse(slackData, data, res);
 					});
 					
 			}).catch(()=>{
-				slackResponse = "Invalid init JSON. For help see; karma: ?";
-				sendResponse(slackData, slackResponse, res);
+				sendResponse(slackData, "Invalid init JSON. For help see; karma: ?", res);
 			});
 	}
 	
