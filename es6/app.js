@@ -302,15 +302,17 @@ app.post('/karma',  (req, res) => {
 	
 	if(posPattern.test(slackData.text)){
 		
+		sendResponse(slackData, "pos", res);
+		
 		//authenticate(slackData.teamId, slackData.token).then(()=>{
-
+/*
 			let userName = userNamePattern.exec(slackData.text)[1];
 			
 			karmaService.add(slackData.teamId, userName, slackData.userName)
 				.then((data)=>{			
 					sendResponse(slackData, data, res);
 				});
-				
+				*/
 		/*}).catch((err)=>{
 			
 			sendResponse(slackData, err, res);
