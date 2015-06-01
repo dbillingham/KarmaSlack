@@ -144,7 +144,7 @@ function sendResponse(slackData, message, res) {
 
 	configService.getConfig(slackData.teamId).then(function (data) {
 
-		//data.inboundWebhook = "https://hooks.slack.com/services/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";
+		data.inboundWebhook = 'https://hooks.slack.com/services/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';
 
 		if (data.inboundWebhook) {
 
