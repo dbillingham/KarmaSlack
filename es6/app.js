@@ -302,10 +302,11 @@ app.post('/karma',  (req, res) => {
 	
 	//Positive karma
 	
+			let userName = userNamePattern.exec(slackData.text)[1];
+	sendResponse(slackData, "0.5. pos:"+ userName, res);
 	
 		let slackA = new Slack("xoxp-5035951778-5035951784-5155303862-e889d0");
-		let userName = userNamePattern.exec(slackData.text)[1];
-	sendResponse(slackData, "0.5. pos:"+ userName, res);
+
 	
 		slackA.api("users.list/"+userName, function(err, response) {
 
