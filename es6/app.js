@@ -247,8 +247,8 @@ app.post('/karma',  (req, res) => {
 		initPattern = /((init \{)([\s\S]*)(\}))/,
 		userNamePattern = /<@(.*?)>/,
 		everyoneUserNamePattern = /<!(.*?)>/,
-		posPattern = /((<!)([a-z0-9]+)(> )(\+\+))/,
-		negPattern = /((<!)([a-z0-9]+)(> )(\-\-))/;
+		posPattern = /((<@)([a-z0-9]+)(> )(\+\+))/,
+		negPattern = /((<@)([a-z0-9]+)(> )(\-\-))/;
 	
 	//Help
 
@@ -350,7 +350,7 @@ app.post('/karma',  (req, res) => {
 	
 	//User Total
 	
-	if(userNamePattern.test(slackData.text)){
+	if(userNamePattern.test(slackData.text) || everyoneUserNamePattern.test(slackData.text)){
 		
 		authenticate(slackData.teamId, slackData.token).then(()=>{
 			
