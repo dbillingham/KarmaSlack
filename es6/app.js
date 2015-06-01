@@ -165,18 +165,18 @@ app.post('/karma',  (req, res) => {
 				outboundToken: data.outboundToken || ''
 			});
 
-			configService.register(configModel)
-				.then((data) => {
+			configService.register(configModel);
+				/*.then((data) => {
 					//console.log("data 2: " + data);
-					sendResponse(slackData, data, res);
+					//sendResponse(slackData, data, res);
 				})
 				.catch((data) => {
 					//console.log("data 3: " + data);
-					sendResponse(slackData, data, res);
-				});
+					//sendResponse(slackData, data, res);
+				});*/
 				
 		}).catch(()=>{
-			sendResponse(slackData, "Invalid init JSON. For help see; karma: ?", res);
+			//sendResponse(slackData, "Invalid init JSON. For help see; karma: ?", res);
 		});
 });
 

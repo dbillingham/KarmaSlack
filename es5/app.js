@@ -187,16 +187,16 @@ app.post('/karma', function (req, res) {
 			outboundToken: data.outboundToken || ''
 		});
 
-		configService.register(configModel).then(function (data) {
-			//console.log("data 2: " + data);
-			sendResponse(slackData, data, res);
-		})['catch'](function (data) {
-			//console.log("data 3: " + data);
-			sendResponse(slackData, data, res);
-		});
-	})['catch'](function () {
-		sendResponse(slackData, 'Invalid init JSON. For help see; karma: ?', res);
-	});
+		configService.register(configModel);
+		/*.then((data) => {
+  	//console.log("data 2: " + data);
+  	//sendResponse(slackData, data, res);
+  })
+  .catch((data) => {
+  	//console.log("data 3: " + data);
+  	//sendResponse(slackData, data, res);
+  });*/
+	})['catch'](function () {});
 });
 
 app.post('/karma2', function (req, res) {
@@ -343,4 +343,6 @@ app.post('/karma2', function (req, res) {
 app.listen(config.port, function () {
 	return console.log('Running on port ' + config.port);
 });
+
+//sendResponse(slackData, "Invalid init JSON. For help see; karma: ?", res);
 //# sourceMappingURL=app.js.map
