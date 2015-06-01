@@ -120,11 +120,11 @@ function sendResponse(slackData, message, res){
 	
 	let teamConfig = configService.getConfig(slackData.teamId);
 	
-	//teamConfig.outboundWebhook = "https://hooks.slack.com/services/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";
+	//teamConfig.inboundWebhook = "https://hooks.slack.com/services/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";
 	
-	if(teamConfig.outboundWebhook){
+	if(teamConfig.inboundWebhook){
 		
-		slackRes.setWebhook(teamConfig.outboundWebhook);
+		slackRes.setWebhook(teamConfig.inboundWebhook);
 	
 		slackRes.webhook({
 			
