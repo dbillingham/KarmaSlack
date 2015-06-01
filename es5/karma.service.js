@@ -113,7 +113,6 @@ var KarmaService = (function () {
 						var element = collection[user];
 						responseText += " " + element._id + " has a karma of " + element.count + ". \n";
 					}
-
 					res(responseText);
 				});
 			});

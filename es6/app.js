@@ -5,7 +5,6 @@ import Slack from 'slack-node';
 
 import Config from '../es5/config.js'; 
 
-
 import KarmaModel from '../es5/karma.model.js'; 
 import ConfigModel from '../es5/config.model.js';
  
@@ -71,43 +70,6 @@ configService.register("12345","dans teamss","https://hooks.slack.com/services/T
 	.catch((data) => console.log(data));
 */
 
-
-
-
-//app.post('/test2',  (req, res) => {
-	
-
-	
-	
-	//KarmaModel.find({}).remove().exec();
-	
-	//KarmaModel.find({}).exec(function(err, collection){
-     /*   var promise = KarmaModel.create({
-			  "teamId":"111",
-	          "userName":"DAN",
-	        },{
-			  "teamId":"111",
-	          "userName":"DAN",
-	        },{
-			  "teamId":"111",
-	          "userName":"BRETT",
-        });	
-		
-		promise.then((err, karmas) => {
-		  	KarmaModel.points("111","BRETT", function(err, collection){
-				//console.log('eeee: ' + collection.length);
-			});
-		});*/
-			
-	//});
-	
-
-
-
-	 //res.send('Hello World!');
-	
-//});
-
 function parseJson(str){
 	
 	return new Promise((res,rej) =>{
@@ -145,6 +107,34 @@ function authenticate(teamId, token){
 	});
 }
 
+function sendResponse(slackData, message, res){
+	
+	if(!message){
+		message = "Invalid Command. For help see; karma: ?";
+	}
+	
+	res.send(message);
+	
+	let slackRes = new Slack();
+	
+	let teamConfig = configService.getConfig(slackData.teamId);
+	
+	if(teamConfig.outboundWebhook){
+		
+		slackRes.setWebhook(teamConfig.outboundWebhook);
+	
+		slackRes.webhook({
+			
+		  channel: "#" + slackData.channelName,
+		  username: "karmabot",
+		  text: message
+		}, (err, response) => {
+			
+		  console.log(response);
+		});
+	}
+}
+
 app.post('/karma',  (req, res) => {
 	
 	/*
@@ -178,34 +168,32 @@ app.post('/karma',  (req, res) => {
 	
 	let configService = new ConfigService();
 	
-	let helpPattern = /(\?)/g,
-		initPattern = /((init \{)([\s\S]*)(\}))/g,
-		userNamePattern = /<!(.*?)>/g,
-		posPattern = /((<!)([a-z0-9]+)(> )(\+\+))/g,
-		negPattern = /((<!)([a-z0-9]+)(> )(\-\-))/g;
-	
-	let slackResponse = "Invalid Command. For help see; karma: ?";
+	let helpPattern = /(\?)/,
+		initPattern = /((init \{)([\s\S]*)(\}))/,
+		userNamePattern = /<!(.*?)>/,
+		posPattern = /((<!)([a-z0-9]+)(> )(\+\+))/,
+		negPattern = /((<!)([a-z0-9]+)(> )(\-\-))/;
 	
 	//Help
 
 	if(helpPattern.test(slackData.text)){
-		slackResponse = "How to use karma:";
+		let slackResponse = "How to use karma:";
 		slackResponse += "\n Positive karma = karma: @user ++";
 		slackResponse += "\n Negative karma = karma: @user --";
 		slackResponse += "\n User karma = karma: @user";
-		slackResponse += "\n Team karma = karma: team";
+		slackResponse += "\n Team karma = karma: @everyone";
 		slackResponse += "\n Setup karma = karma: init {";
 		slackResponse += "\n  \"inboundWebhook\": \"https://hooks.slack.com/services/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\"";
 		slackResponse += "\n  \"outboundToken\": \"25LnEy4vXHEi88Plrpvg6htP";
 		slackResponse += "\n }";
-		res.send(slackResponse);
+		sendResponse(slackData, slackResponse, res);
 	}
 	
 	//Init
 	
 	if(initPattern.test(slackData.text)){
 		
-		var jsonString = slackData.text.replace("init", '').trim();
+		let jsonString = slackData.text.replace("init", '').trim();
 		
 		parseJson(jsonString)
 			.then((data)=>{
@@ -220,16 +208,16 @@ app.post('/karma',  (req, res) => {
 				configService.register(configModel)
 					.then((data) => {
 						slackResponse = data;
-						res.send(slackResponse);
+						sendResponse(slackData, slackResponse, res);
 					})
 					.catch((data) => {
 						slackResponse = data;
-						res.send(slackResponse);
+						sendResponse(slackData, slackResponse, res);
 					});
 					
 			}).catch(()=>{
 				slackResponse = "Invalid init JSON. For help see; karma: ?";
-				res.send(slackResponse);
+				sendResponse(slackData, slackResponse, res);
 			});
 	}
 	
@@ -239,16 +227,16 @@ app.post('/karma',  (req, res) => {
 		
 		authenticate(slackData.teamId, slackData.token).then(()=>{
 
-			var userName = userNamePattern.exec(slackData.text)[1];
+			let userName = userNamePattern.exec(slackData.text)[1];
 			
 			karmaService.add(slackData.teamId, userName, slackData.userName)
 				.then((data)=>{			
-					res.send(data);
+					sendResponse(slackData, data, res);
 				});
 				
 		}).catch((err)=>{
 			
-			res.send(err);
+			sendResponse(slackData, err, res);
 		});
 	}
 	
@@ -258,75 +246,47 @@ app.post('/karma',  (req, res) => {
 		
 		authenticate(slackData.teamId, slackData.token).then(()=>{
 
-			var userName = userNamePattern.exec(slackData.text)[1];
+			let userName = userNamePattern.exec(slackData.text)[1];
 			
 			karmaService.remove(slackData.teamId, userName, slackData.userName)
 				.then((data)=>{			
-					res.send(data);
+					sendResponse(slackData, data, res);
 				});
 				
 		}).catch((err)=>{
 			
-			res.send(err);
+			sendResponse(slackData, err, res);
 		});
 	}
 	
-	//Team Total
+	//User Total
 	
-	/*
-	var channelName = req.body.channel_name;
-	var text = req.body.text;
-	
-	
-	
-	
-	
-	
-	
-	mongoose.connect(config.db);
-	
-	var db = mongoose.connection;
-	
-	db.on('error', console.error.bind(console, 'connection error...'));
-	db.once('open', function callback(){
-		console.log('db opened');
-	});
-	
-	Contact.find({}).remove().exec();
-	
-	Contact.find({}).exec(function(err, collection){
-	        Contact.create({
-	          "name":text,
-	        });	
-	});
-	
-	*/
-	
-	
-	
-	
-	
-	/*
-	
-	
-	//Test valid text value
-	
-	
-
-	
-	//var user = text.replace('karma:', '');
-	
-	var slackRes = new Slack();
-	slackRes.setWebhook("https://hooks.slack.com/services/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");
-	
-	slackRes.webhook({
-	  channel: "#" + channelName,
-	  username: "webhookbot",
-	  text: slackResponse + "   |||||| " + text
-	}, (err, response) => {
-	  console.log(response);
-	});*/
+	if(userNamePattern.test(slackData.text)){
+		
+		authenticate(slackData.teamId, slackData.token).then(()=>{
+			
+			let userName = userNamePattern.exec(slackData.text)[1];
+			
+			if(userName === 'everyone'){
+				
+				karmaService.teamCount(slackData.teamId)
+					.then((data)=>{			
+						sendResponse(slackData, data, res);
+					});				
+			}else{
+				
+				karmaService.userCount(slackData.teamId, userName)
+					.then((data)=>{			
+						sendResponse(slackData, data, res);
+					});
+			}
+				
+		}).catch((err)=>{
+			
+			sendResponse(slackData, err, res);
+		});
+	}
 });
-//((karma: @)([a-z0-9]+ )(\+\+|\-\-))
+
 app.listen(config.port, 
 	() => console.log(`Running on port ${config.port}`));

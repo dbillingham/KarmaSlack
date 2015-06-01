@@ -95,33 +95,6 @@ configService.register("12345","dans teamss","https://hooks.slack.com/services/T
 	.catch((data) => console.log(data));
 */
 
-//app.post('/test2',  (req, res) => {
-
-//KarmaModel.find({}).remove().exec();
-
-//KarmaModel.find({}).exec(function(err, collection){
-/*   var promise = KarmaModel.create({
-"teamId":"111",
-      "userName":"DAN",
-    },{
-"teamId":"111",
-      "userName":"DAN",
-    },{
-"teamId":"111",
-      "userName":"BRETT",
-   });	
-	promise.then((err, karmas) => {
-KarmaModel.points("111","BRETT", function(err, collection){
-//console.log('eeee: ' + collection.length);
-});
-});*/
-
-//});
-
-//res.send('Hello World!');
-
-//});
-
 function parseJson(str) {
 
 	return new Promise(function (res, rej) {
@@ -158,6 +131,34 @@ function authenticate(teamId, token) {
 	});
 }
 
+function sendResponse(slackData, message, res) {
+
+	if (!message) {
+		message = 'Invalid Command. For help see; karma: ?';
+	}
+
+	res.send(message);
+
+	var slackRes = new _slackNode2['default']();
+
+	var teamConfig = configService.getConfig(slackData.teamId);
+
+	if (teamConfig.outboundWebhook) {
+
+		slackRes.setWebhook(teamConfig.outboundWebhook);
+
+		slackRes.webhook({
+
+			channel: '#' + slackData.channelName,
+			username: 'karmabot',
+			text: message
+		}, function (err, response) {
+
+			console.log(response);
+		});
+	}
+}
+
 app.post('/karma', function (req, res) {
 
 	/*
@@ -191,27 +192,25 @@ app.post('/karma', function (req, res) {
 
 	var configService = new _es5ConfigServiceJs2['default']();
 
-	var helpPattern = /(\?)/g,
-	    initPattern = /((init \{)([\s\S]*)(\}))/g,
-	    userNamePattern = /<!(.*?)>/g,
-	    posPattern = /((<!)([a-z0-9]+)(> )(\+\+))/g,
-	    negPattern = /((<!)([a-z0-9]+)(> )(\-\-))/g;
-
-	var slackResponse = 'Invalid Command. For help see; karma: ?';
+	var helpPattern = /(\?)/,
+	    initPattern = /((init \{)([\s\S]*)(\}))/,
+	    userNamePattern = /<!(.*?)>/,
+	    posPattern = /((<!)([a-z0-9]+)(> )(\+\+))/,
+	    negPattern = /((<!)([a-z0-9]+)(> )(\-\-))/;
 
 	//Help
 
 	if (helpPattern.test(slackData.text)) {
-		slackResponse = 'How to use karma:';
-		slackResponse += '\n Positive karma = karma: @user ++';
-		slackResponse += '\n Negative karma = karma: @user --';
-		slackResponse += '\n User karma = karma: @user';
-		slackResponse += '\n Team karma = karma: team';
-		slackResponse += '\n Setup karma = karma: init {';
-		slackResponse += '\n  "inboundWebhook": "https://hooks.slack.com/services/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"';
-		slackResponse += '\n  "outboundToken": "25LnEy4vXHEi88Plrpvg6htP';
-		slackResponse += '\n }';
-		res.send(slackResponse);
+		var _slackResponse = 'How to use karma:';
+		_slackResponse += '\n Positive karma = karma: @user ++';
+		_slackResponse += '\n Negative karma = karma: @user --';
+		_slackResponse += '\n User karma = karma: @user';
+		_slackResponse += '\n Team karma = karma: @everyone';
+		_slackResponse += '\n Setup karma = karma: init {';
+		_slackResponse += '\n  "inboundWebhook": "https://hooks.slack.com/services/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"';
+		_slackResponse += '\n  "outboundToken": "25LnEy4vXHEi88Plrpvg6htP';
+		_slackResponse += '\n }';
+		sendResponse(slackData, _slackResponse, res);
 	}
 
 	//Init
@@ -231,14 +230,14 @@ app.post('/karma', function (req, res) {
 
 			configService.register(configModel).then(function (data) {
 				slackResponse = data;
-				res.send(slackResponse);
+				sendResponse(slackData, slackResponse, res);
 			})['catch'](function (data) {
 				slackResponse = data;
-				res.send(slackResponse);
+				sendResponse(slackData, slackResponse, res);
 			});
 		})['catch'](function () {
 			slackResponse = 'Invalid init JSON. For help see; karma: ?';
-			res.send(slackResponse);
+			sendResponse(slackData, slackResponse, res);
 		});
 	}
 
@@ -251,11 +250,11 @@ app.post('/karma', function (req, res) {
 			var userName = userNamePattern.exec(slackData.text)[1];
 
 			karmaService.add(slackData.teamId, userName, slackData.userName).then(function (data) {
-				res.send(data);
+				sendResponse(slackData, data, res);
 			});
 		})['catch'](function (err) {
 
-			res.send(err);
+			sendResponse(slackData, err, res);
 		});
 	}
 
@@ -268,67 +267,40 @@ app.post('/karma', function (req, res) {
 			var userName = userNamePattern.exec(slackData.text)[1];
 
 			karmaService.remove(slackData.teamId, userName, slackData.userName).then(function (data) {
-				res.send(data);
+				sendResponse(slackData, data, res);
 			});
 		})['catch'](function (err) {
 
-			res.send(err);
+			sendResponse(slackData, err, res);
 		});
 	}
 
-	//Team Total
+	//User Total
 
-	/*
- var channelName = req.body.channel_name;
- var text = req.body.text;
- 
- 
- 
- 
- 
- 
- 
- mongoose.connect(config.db);
- 
- var db = mongoose.connection;
- 
- db.on('error', console.error.bind(console, 'connection error...'));
- db.once('open', function callback(){
- 	console.log('db opened');
- });
- 
- Contact.find({}).remove().exec();
- 
- Contact.find({}).exec(function(err, collection){
-         Contact.create({
-           "name":text,
-         });	
- });
- 
- */
+	if (userNamePattern.test(slackData.text)) {
 
-	/*
- 
- 
- //Test valid text value
- 
- 
- 
- 
- //var user = text.replace('karma:', '');
- 
- var slackRes = new Slack();
- slackRes.setWebhook("https://hooks.slack.com/services/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");
- 
- slackRes.webhook({
-   channel: "#" + channelName,
-   username: "webhookbot",
-   text: slackResponse + "   |||||| " + text
- }, (err, response) => {
-   console.log(response);
- });*/
+		authenticate(slackData.teamId, slackData.token).then(function () {
+
+			var userName = userNamePattern.exec(slackData.text)[1];
+
+			if (userName === 'everyone') {
+
+				karmaService.teamCount(slackData.teamId).then(function (data) {
+					sendResponse(slackData, data, res);
+				});
+			} else {
+
+				karmaService.userCount(slackData.teamId, userName).then(function (data) {
+					sendResponse(slackData, data, res);
+				});
+			}
+		})['catch'](function (err) {
+
+			sendResponse(slackData, err, res);
+		});
+	}
 });
-//((karma: @)([a-z0-9]+ )(\+\+|\-\-))
+
 app.listen(config.port, function () {
 	return console.log('Running on port ' + config.port);
 });
