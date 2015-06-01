@@ -309,7 +309,7 @@ app.post('/karma',  (req, res) => {
 	
 	if(posPattern.test(slackData.text)){
 		
-		
+		/*
 					let userName = userNamePattern.exec(slackData.text)[1];
 	sendResponse(slackData, "0.5. pos:"+ userName, res);
 	
@@ -326,7 +326,7 @@ app.post('/karma',  (req, res) => {
 				});
 				
 		});
-		
+		*/
 		
 		
 		

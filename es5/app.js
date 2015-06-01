@@ -285,38 +285,7 @@ app.post('/karma', function (req, res) {
 
 	//Positive karma
 
-	if (posPattern.test(slackData.text)) {
-
-		var userName = userNamePattern.exec(slackData.text)[1];
-		sendResponse(slackData, '0.5. pos:' + userName, res);
-
-		var slackA = new _slackNode2['default']('xoxp-5035951778-5035951784-5155303862-e889d0');
-
-		slackA.api('users.list/' + userName, function (err, response) {
-
-			sendResponse(slackData, '1. pos:' + slackData.text + ' | ' + response.user.name, res);
-
-			karmaService.add(slackData.teamId, response.user.name, slackData.userName).then(function (data) {
-				sendResponse(slackData, data, res);
-			});
-		});
-
-		//sendResponse(slackData, "2. pos:"+ slackData.text, res);
-
-		//authenticate(slackData.teamId, slackData.token).then(()=>{
-		/*
-  			let userName = userNamePattern.exec(slackData.text)[1];
-  			
-  			karmaService.add(slackData.teamId, userName, slackData.userName)
-  				.then((data)=>{			
-  					sendResponse(slackData, data, res);
-  				});
-  */
-		/*}).catch((err)=>{
-  	
-  	sendResponse(slackData, err, res);
-  });*/
-	}
+	if (posPattern.test(slackData.text)) {}
 
 	//Negative karma
 	/*	
@@ -399,4 +368,37 @@ app.listen(config.port, function () {
 });*/
 
 //sendResponse(slackData, "Invalid init JSON. For help see; karma: ?", res);
+
+/*
+			let userName = userNamePattern.exec(slackData.text)[1];
+sendResponse(slackData, "0.5. pos:"+ userName, res);
+
+let slackA = new Slack("xoxp-5035951778-5035951784-5155303862-e889d0");
+	
+slackA.api("users.list/"+userName, function(err, response) {
+			sendResponse(slackData, "1. pos:"+ slackData.text + ' | ' + response.user.name, res);
+
+		karmaService.add(slackData.teamId, response.user.name, slackData.userName)
+		.then((data)=>{			
+			sendResponse(slackData, data, res);
+		});
+		
+});
+*/
+
+//sendResponse(slackData, "2. pos:"+ slackData.text, res);
+
+//authenticate(slackData.teamId, slackData.token).then(()=>{
+/*
+			let userName = userNamePattern.exec(slackData.text)[1];
+			
+			karmaService.add(slackData.teamId, userName, slackData.userName)
+				.then((data)=>{			
+					sendResponse(slackData, data, res);
+				});
+*/
+/*}).catch((err)=>{
+	
+	sendResponse(slackData, err, res);
+});*/
 //# sourceMappingURL=app.js.map
