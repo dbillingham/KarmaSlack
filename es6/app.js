@@ -299,10 +299,10 @@ app.post('/karma',  (req, res) => {
 	}
 	
 	//Positive karma
-	
+	sendResponse(slackData, "1. pos", res);
 	if(posPattern.test(slackData.text)){
 		
-		sendResponse(slackData, "pos", res);
+		sendResponse(slackData, "2. pos", res);
 		
 		//authenticate(slackData.teamId, slackData.token).then(()=>{
 /*
@@ -318,7 +318,7 @@ app.post('/karma',  (req, res) => {
 			sendResponse(slackData, err, res);
 		});*/
 	}
-	
+/*	
 	//Negative karma
 	
 	if(negPattern.test(slackData.text)){
@@ -365,6 +365,7 @@ app.post('/karma',  (req, res) => {
 			sendResponse(slackData, err, res);
 		});
 	}
+*/	
 });
 
 app.listen(config.port, 
