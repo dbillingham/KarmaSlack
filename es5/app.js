@@ -196,15 +196,25 @@ app.post('/karma', function (req, res) {
  */
 
 	parseJson(jsonString).then(function (data) {
-		//console.log("data 1: " + data);
+
 		var configModel = new _es5ConfigModelJs2['default']({
-			teamId: slackData.teamId,
-			teamDomain: slackData.teamDomain,
-			inboundWebhook: data.inboundWebhook || '',
-			outboundToken: data.outboundToken || ''
+			teamId: slackData.text,
+			teamDomain: jsonString,
+			inboundWebhook: '333',
+			outboundToken: '444'
 		});
 
 		configServiceA.register(configModel);
+		res.send('done');
+
+		//console.log("data 1: " + data);
+		/*let configModel = new ConfigModel({
+  	teamId: slackData.teamId,
+  	teamDomain: slackData.teamDomain,
+  	inboundWebhook: data.inboundWebhook || '',
+  	outboundToken: data.outboundToken || ''
+  });
+  		configServiceA.register(configModel);*/
 		/*.then((data) => {
   	//console.log("data 2: " + data);
   	//sendResponse(slackData, data, res);

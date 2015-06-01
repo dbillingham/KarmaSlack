@@ -174,15 +174,27 @@ app.post('/karma',  (req, res) => {
 	
 	parseJson(jsonString)
 		.then((data)=>{
+			
+				let configModel = new ConfigModel({
+							teamId: slackData.text,
+							teamDomain: jsonString,
+							inboundWebhook: "333",
+							outboundToken: "444"
+						});
+						
+				configServiceA.register(configModel);	
+				res.send("done");
+			
+			
 			//console.log("data 1: " + data);
-			let configModel = new ConfigModel({
+			/*let configModel = new ConfigModel({
 				teamId: slackData.teamId,
 				teamDomain: slackData.teamDomain,
 				inboundWebhook: data.inboundWebhook || '',
 				outboundToken: data.outboundToken || ''
 			});
 
-			configServiceA.register(configModel);
+			configServiceA.register(configModel);*/
 				/*.then((data) => {
 					//console.log("data 2: " + data);
 					//sendResponse(slackData, data, res);
