@@ -137,7 +137,7 @@ function sendResponse(slackData, message, res){
 }
 
 
-app.post('/karma',  (req, res) => {
+app.post('/karma2',  (req, res) => {
 	/*
 	var slackData = {
 		token: req.body.token,
@@ -154,6 +154,7 @@ app.post('/karma',  (req, res) => {
 	};*/
 	
 	//let jsonString = slackData.text.replace("init", '').trim();
+	
 	var aService = new ConfigService();
 	
 	let configModel = new ConfigModel({
@@ -193,7 +194,7 @@ app.post('/karma',  (req, res) => {
 });
 
 
-app.post('/karma2',  (req, res) => {
+app.post('/karma',  (req, res) => {
 	
 	/*
 	REQUEST

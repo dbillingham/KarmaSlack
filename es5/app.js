@@ -160,7 +160,7 @@ function sendResponse(slackData, message, res) {
 	}
 }
 
-app.post('/karma', function (req, res) {
+app.post('/karma2', function (req, res) {
 	/*
  var slackData = {
  	token: req.body.token,
@@ -177,6 +177,7 @@ app.post('/karma', function (req, res) {
  };*/
 
 	//let jsonString = slackData.text.replace("init", '').trim();
+
 	var aService = new _es5ConfigServiceJs2['default']();
 
 	var configModel = new _es5ConfigModelJs2['default']({
@@ -215,7 +216,7 @@ app.post('/karma', function (req, res) {
  	});*/
 });
 
-app.post('/karma2', function (req, res) {
+app.post('/karma', function (req, res) {
 
 	/*
  REQUEST
