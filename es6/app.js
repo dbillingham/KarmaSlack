@@ -114,28 +114,29 @@ function sendResponse(slackData, message, res){
 		message = "Invalid Command. For help see; karma: ?";
 	}
 	
-	res.send(message);
+	//res.send(message);
 	
 	let slackRes = new Slack();
 	
-	let teamConfig = configService.getConfig(slackData.teamId);
-	
-	teamConfig.inboundWebhook = "https://hooks.slack.com/services/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";
-	
-	if(teamConfig.inboundWebhook){
+	configService.getConfig(slackData.teamId).then((data)=>{
 		
-		slackRes.setWebhook(teamConfig.inboundWebhook);
-	
-		slackRes.webhook({
+		//data.inboundWebhook = "https://hooks.slack.com/services/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";
+		
+		if(data.inboundWebhook){
 			
-		  channel: "#" + slackData.channelName,
-		  username: "karmabot",
-		  text: message + ' | ' + teamConfig.inboundWebhook
-		}, (err, response) => {
-			
-		  console.log(response);
-		});
-	}
+			slackRes.setWebhook(data.inboundWebhook);
+		
+			slackRes.webhook({
+				
+			  channel: "#" + slackData.channelName,
+			  username: "karmabot",
+			  text: message
+			}, (err, response) => {
+				
+			  console.log(response);
+			});
+		}
+	});
 }
 
 
