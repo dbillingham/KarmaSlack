@@ -247,17 +247,8 @@ app.post('/karma',  (req, res) => {
 		initPattern = /((init \{)([\s\S]*)(\}))/,
 		userNamePattern = /<@(.*?)>/,
 		everyoneUserNamePattern = /<!(.*?)>/,
-		posPattern = /((<@)([a-z0-9]+)(> )(\+\+))/,
-		negPattern = /((<@)([a-z0-9]+)(> )(\-\-))/;
-	
-	
-		sendResponse(slackData, "1. pos:"+ slackData.text, res);
-	
-				karmaService.add(slackData.teamId, slackData.text, slackData.userName)
-				.then((data)=>{			
-					sendResponse(slackData, data, res);
-				});
-	
+		posPattern = /((<!)([a-z0-9]+)(> )(\+\+))/,
+		negPattern = /((<!)([a-z0-9]+)(> )(\-\-))/;
 	
 	//Help
 
@@ -309,29 +300,32 @@ app.post('/karma',  (req, res) => {
 	}
 	
 	//Positive karma
+	sendResponse(slackData, "1. pos:"+ slackData.text, res);
+	
+				karmaService.add(slackData.teamId, slackData.text, slackData.userName)
+				.then((data)=>{			
+					sendResponse(slackData, data, res);
+				});
 	
 	
-
-	
-	/*
 	if(posPattern.test(slackData.text)){
 		
 		sendResponse(slackData, "2. pos", res);
 		
-		authenticate(slackData.teamId, slackData.token).then(()=>{
-
+		//authenticate(slackData.teamId, slackData.token).then(()=>{
+/*
 			let userName = userNamePattern.exec(slackData.text)[1];
 			
 			karmaService.add(slackData.teamId, userName, slackData.userName)
 				.then((data)=>{			
 					sendResponse(slackData, data, res);
 				});
-				
-		}).catch((err)=>{
+*/				
+		/*}).catch((err)=>{
 			
 			sendResponse(slackData, err, res);
-		});
-	}*/
+		});*/
+	}
 /*	
 	//Negative karma
 	
@@ -354,7 +348,7 @@ app.post('/karma',  (req, res) => {
 	
 	//User Total
 	
-	if(userNamePattern.test(slackData.text) || everyoneUserNamePattern.test(slackData.text)){
+	if(userNamePattern.test(slackData.text)){
 		
 		authenticate(slackData.teamId, slackData.token).then(()=>{
 			
