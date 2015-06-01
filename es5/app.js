@@ -263,7 +263,7 @@ app.post('/karma', function (req, res) {
   */
 		var configModel = new _es5ConfigModelJs2['default']({
 			teamId: slackData.teamId,
-			teamDomain: slackData.teamDomain,
+			teamDomain: configArray,
 			inboundWebhook: configArray[1] || '',
 			outboundToken: configArray[0] || ''
 		});

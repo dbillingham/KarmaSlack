@@ -276,7 +276,7 @@ app.post('/karma',  (req, res) => {
 */
 				let configModel = new ConfigModel({
 					teamId: slackData.teamId,
-					teamDomain: slackData.teamDomain,
+					teamDomain: configArray,
 					inboundWebhook: configArray[1] || '',
 					outboundToken: configArray[0] || ''
 				});
