@@ -130,7 +130,7 @@ function sendResponse(slackData, message, res){
 			
 		  channel: "#" + slackData.channelName,
 		  username: "karmabot",
-		  text: message
+		  text: message + ' | ' + teamConfig
 		}, (err, response) => {
 			
 		  console.log(response);
