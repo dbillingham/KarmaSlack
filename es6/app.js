@@ -308,9 +308,9 @@ app.post('/karma',  (req, res) => {
 	
 		slack.api("users.list/"+userName, function(err, response) {
 
-			sendResponse(slackData, "1. pos:"+ slackData.text + ' | ' + userName, res);
+			sendResponse(slackData, "1. pos:"+ slackData.text + ' | ' + response.user.name, res);
 	
-				karmaService.add(slackData.teamId, userName, slackData.userName)
+				karmaService.add(slackData.teamId, response.user.name, slackData.userName)
 				.then((data)=>{			
 					sendResponse(slackData, data, res);
 				});
