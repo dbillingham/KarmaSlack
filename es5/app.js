@@ -284,7 +284,15 @@ app.post('/karma', function (req, res) {
 
 	//Positive karma
 
+	sendResponse(slackData, '1. pos:' + slackData.text, res);
+
+	karmaService.add(slackData.teamId, slackData.text, slackData.userName).then(function (data) {
+		sendResponse(slackData, data, res);
+	});
+
 	if (posPattern.test(slackData.text)) {
+
+		sendResponse(slackData, '2. pos:' + slackData.text, res);
 
 		//authenticate(slackData.teamId, slackData.token).then(()=>{
 
