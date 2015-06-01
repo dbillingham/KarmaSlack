@@ -272,6 +272,9 @@ app.post('/karma',  (req, res) => {
 		parseJson(configJsonString)
 			.then((data)=>{
 
+				//Remove the '<>' from the inbound webhook that slack seems to add around urls.
+				data.inboundWebhook = data.inboundWebhook.replace(/<|>/g,'');
+
 				let configModel = new ConfigModel({
 					teamId: slackData.teamId,
 					teamDomain: slackData.teamDomain,
