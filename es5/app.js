@@ -256,7 +256,7 @@ app.post('/karma', function (req, res) {
 		(function () {
 
 			//let configArray = slackData.text.replace(": init", '').trim().replace(/"/g, '').split(' ');
-			var configArray = slackData.text.replace(': init', '').trim().replace(/"/g, '');
+			var configArray = slackData.text.replace(': init', '').trim().replace(/\\"/g, '');
 
 			parseJson(configArray).then(function (data) {
 
