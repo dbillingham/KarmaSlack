@@ -137,8 +137,8 @@ function sendResponse(slackData, message, res){
 }
 
 
-app.post('/karma2',  (req, res) => {
-	/*
+app.post('/karma',  (req, res) => {
+	
 	var slackData = {
 		token: req.body.token,
 		teamId: req.body.team_id,
@@ -151,10 +151,11 @@ app.post('/karma2',  (req, res) => {
 		originalText: req.body.text,
 		text: req.body.text.replace(req.body.trigger_word, '').trim(),
 		triggerWord: req.body.trigger_word
-	};*/
+	};
 	
-	//let jsonString = slackData.text.replace("init", '').trim();
+	let jsonString = slackData.text.replace("init", '').trim();
 	
+	/*
 	var aService = new ConfigService();
 	
 	let configModel = new ConfigModel({
@@ -165,9 +166,9 @@ app.post('/karma2',  (req, res) => {
 			});
 			
 	aService.register(configModel);	
-	res.send("done");
+	res.send("done");*/
 	
-	/*
+	
 	parseJson(jsonString)
 		.then((data)=>{
 			//console.log("data 1: " + data);
@@ -179,22 +180,22 @@ app.post('/karma2',  (req, res) => {
 			});
 
 			configService.register(configModel);
-				.then((data) => {
+				/*.then((data) => {
 					//console.log("data 2: " + data);
 					//sendResponse(slackData, data, res);
 				})
 				.catch((data) => {
 					//console.log("data 3: " + data);
 					//sendResponse(slackData, data, res);
-				});
+				});*/
 				
 		}).catch(()=>{
 			//sendResponse(slackData, "Invalid init JSON. For help see; karma: ?", res);
-		});*/
+		});
 });
 
 
-app.post('/karma',  (req, res) => {
+app.post('/karma2',  (req, res) => {
 	
 	/*
 	REQUEST
