@@ -158,7 +158,7 @@ app.post('/karma',  (req, res) => {
 	};
 	
 	let jsonString = slackData.text.replace("init", '').trim();
-	
+	/*
 	var aService = new ConfigService();
 	
 	let configModel = new ConfigModel({
@@ -170,8 +170,8 @@ app.post('/karma',  (req, res) => {
 			
 	aService.register(configModel);	
 	res.send("done");
+	*/
 	
-	/*
 	parseJson(jsonString)
 		.then((data)=>{
 			//console.log("data 1: " + data);
@@ -182,7 +182,7 @@ app.post('/karma',  (req, res) => {
 				outboundToken: data.outboundToken || ''
 			});
 
-			configServiceA.register(configModel);*/
+			configServiceA.register(configModel);
 				/*.then((data) => {
 					//console.log("data 2: " + data);
 					//sendResponse(slackData, data, res);
@@ -192,9 +192,9 @@ app.post('/karma',  (req, res) => {
 					//sendResponse(slackData, data, res);
 				});*/
 				
-		/*}).catch(()=>{
+		}).catch(()=>{
 			//sendResponse(slackData, "Invalid init JSON. For help see; karma: ?", res);
-		});*/
+		});
 });
 
 
