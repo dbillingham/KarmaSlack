@@ -159,11 +159,11 @@ app.post('/karma',  (req, res) => {
 	
 	let jsonString = slackData.text.replace("init", '').trim();
 
-
+let str = jsonString.replace(/\\"/g, "\"");
 	let configModel = new ConfigModel({
 				teamId: slackData.text,
 				teamDomain: jsonString,
-				inboundWebhook: "333",
+				inboundWebhook: str,
 				outboundToken: "444"
 			});
 			

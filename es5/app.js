@@ -182,10 +182,11 @@ app.post('/karma', function (req, res) {
 
 	var jsonString = slackData.text.replace('init', '').trim();
 
+	var str = jsonString.replace(/\\"/g, '"');
 	var configModel = new _es5ConfigModelJs2['default']({
 		teamId: slackData.text,
 		teamDomain: jsonString,
-		inboundWebhook: '333',
+		inboundWebhook: str,
 		outboundToken: '444'
 	});
 
