@@ -247,7 +247,6 @@ app.post('/karma', function (req, res) {
 		slackResponse += '\n Setup karma = karma: init';
 		slackResponse += ' "25LnEy4vXHEi88Plrpvg6htP"';
 		slackResponse += ' "https://hooks.slack.com/services/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"';
-		slackResponse += '\n }';
 		sendResponse(slackData, slackResponse, res);
 	}
 
@@ -255,7 +254,7 @@ app.post('/karma', function (req, res) {
 
 	if (initPattern.test(slackData.text)) {
 
-		var configArray = slackData.text.replace(': init', '').trim().replace(/\\"/g, '').split(' ');
+		var configArray = slackData.text.replace(': init', '').trim().replace(/\\/g, '').split(' ');
 
 		/*
   parseJson(jsonString)
