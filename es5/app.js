@@ -292,23 +292,21 @@ app.post('/karma', function (req, res) {
  			});
  */
 	if (posPattern.test(slackData.text)) {
-		(function () {
 
-			//sendResponse(slackData, "2. pos:"+ slackData.text, res);
+		//sendResponse(slackData, "2. pos:"+ slackData.text, res);
 
-			//authenticate(slackData.teamId, slackData.token).then(()=>{
+		//authenticate(slackData.teamId, slackData.token).then(()=>{
 
-			var userName = userNamePattern.exec(slackData.text)[1];
+		var userName = userNamePattern.exec(slackData.text)[1];
 
-			karmaService.add(slackData.teamId, userName, slackData.userName).then(function (data) {
-				sendResponse(slackData, userName, res);
-			});
+		karmaService.add(slackData.teamId, userName, slackData.userName).then(function (data) {
+			sendResponse(slackData, data, res);
+		});
 
-			/*}).catch((err)=>{
-   	
-   	sendResponse(slackData, err, res);
-   });*/
-		})();
+		/*}).catch((err)=>{
+  	
+  	sendResponse(slackData, err, res);
+  });*/
 	}
 
 	//Negative karma

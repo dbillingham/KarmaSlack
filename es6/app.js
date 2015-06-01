@@ -318,7 +318,7 @@ app.post('/karma',  (req, res) => {
 			
 			karmaService.add(slackData.teamId, userName, slackData.userName)
 				.then((data)=>{			
-					sendResponse(slackData, userName, res);
+					sendResponse(slackData, data, res);
 				});
 				
 		/*}).catch((err)=>{
