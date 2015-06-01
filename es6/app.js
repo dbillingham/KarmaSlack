@@ -158,9 +158,8 @@ app.post('/karma',  (req, res) => {
 	};
 	
 	let jsonString = slackData.text.replace("init", '').trim();
-	/*
-	var aService = new ConfigService();
-	
+
+
 	let configModel = new ConfigModel({
 				teamId: slackData.text,
 				teamDomain: jsonString,
@@ -168,13 +167,13 @@ app.post('/karma',  (req, res) => {
 				outboundToken: "444"
 			});
 			
-	aService.register(configModel);	
+	configServiceA.register(configModel);	
 	res.send("done");
-	*/
+	
 	
 	parseJson(jsonString)
 		.then((data)=>{
-			
+			/*
 				let configModel = new ConfigModel({
 							teamId: slackData.text,
 							teamDomain: jsonString,
@@ -183,7 +182,7 @@ app.post('/karma',  (req, res) => {
 						});
 						
 				configServiceA.register(configModel);	
-				res.send("done");
+				res.send("done");*/
 			
 			
 			//console.log("data 1: " + data);
