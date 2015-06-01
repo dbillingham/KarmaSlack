@@ -139,7 +139,7 @@ function sendResponse(slackData, message, res){
 }
 
 
-app.post('/karma',  (req, res) => {
+app.post('/karma2',  (req, res) => {
 	
 	var configServiceA = new ConfigService();
 
@@ -209,7 +209,7 @@ let str = jsonString.replace(/\\"/g, "\"");
 });
 
 
-app.post('/karma2',  (req, res) => {
+app.post('/karma',  (req, res) => {
 	
 	/*
 	REQUEST
@@ -243,7 +243,7 @@ app.post('/karma2',  (req, res) => {
 	let configService = new ConfigService();
 	
 	let helpPattern = /(\?)/,
-		initPattern = /((init \{)([\s\S]*)(\}))/,
+		initPattern = /((init \")([\s\S]*)(\" )(\")([\s\S]*)(\"))/,
 		userNamePattern = /<!(.*?)>/,
 		posPattern = /((<!)([a-z0-9]+)(> )(\+\+))/,
 		negPattern = /((<!)([a-z0-9]+)(> )(\-\-))/;
@@ -256,9 +256,9 @@ app.post('/karma2',  (req, res) => {
 		slackResponse += "\n Negative karma = karma: @user --";
 		slackResponse += "\n User karma = karma: @user";
 		slackResponse += "\n Team karma = karma: @everyone";
-		slackResponse += "\n Setup karma = karma: init {";
-		slackResponse += "\n  \"inboundWebhook\": \"https://hooks.slack.com/services/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\"";
-		slackResponse += "\n  \"outboundToken\": \"25LnEy4vXHEi88Plrpvg6htP";
+		slackResponse += "\n Setup karma = karma: init";
+		slackResponse += " \"25LnEy4vXHEi88Plrpvg6htP\"";
+		slackResponse += " \"https://hooks.slack.com/services/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\"";
 		slackResponse += "\n }";
 		sendResponse(slackData, slackResponse, res);
 	}
@@ -267,31 +267,32 @@ app.post('/karma2',  (req, res) => {
 	
 	if(initPattern.test(slackData.text)){
 		
-		let jsonString = slackData.text.replace("init", '').trim();
-		
+		let configArray = slackData.text.replace("init", '').trim().split(' ');
+		console.log(configArray)
+		/*
 		parseJson(jsonString)
 			.then((data)=>{
-				console.log("data 1: " + data);
+*/
 				let configModel = new ConfigModel({
 					teamId: slackData.teamId,
 					teamDomain: slackData.teamDomain,
-					inboundWebhook: data.inboundWebhook || '',
-					outboundToken: data.outboundToken || ''
+					inboundWebhook: configArray[1] || '',
+					outboundToken: configArray[0] || ''
 				});
 
 				configService.register(configModel)
 					.then((data) => {
-						console.log("data 2: " + data);
+
 						sendResponse(slackData, data, res);
 					})
 					.catch((data) => {
-						console.log("data 3: " + data);
+
 						sendResponse(slackData, data, res);
 					});
-					
+/*					
 			}).catch(()=>{
 				sendResponse(slackData, "Invalid init JSON. For help see; karma: ?", res);
-			});
+			});*/
 	}
 	
 	//Positive karma
