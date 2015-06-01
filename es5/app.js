@@ -224,7 +224,7 @@ app.post('/karma', function (req, res) {
 		userId: req.body.user_id,
 		userName: req.body.user_name,
 		originalText: req.body.text,
-		text: req.body.text.replace(req.body.trigger_word, '').trim(),
+		text: req.body.text.replace(req.body.trigger_word + ':', '').trim(),
 		triggerWord: req.body.trigger_word
 	};
 
@@ -256,7 +256,7 @@ app.post('/karma', function (req, res) {
 
 	if (initPattern.test(slackData.text)) {
 
-		var configJsonString = slackData.text.replace(': init', '').trim();
+		var configJsonString = slackData.text.replace('init', '').trim();
 
 		parseJson(configJsonString).then(function (data) {
 
