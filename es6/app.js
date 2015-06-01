@@ -245,9 +245,10 @@ app.post('/karma',  (req, res) => {
 	
 	let helpPattern = /(\?)/,
 		initPattern = /((init \{)([\s\S]*)(\}))/,
-		userNamePattern = /<!(.*?)>/,
-		posPattern = /((<!)([a-z0-9]+)(> )(\+\+))/,
-		negPattern = /((<!)([a-z0-9]+)(> )(\-\-))/;
+		userNamePattern = /<@(.*?)>/,
+		teamPattern = /<!(.*?)>/,
+		posPattern = /((<@)([a-z0-9]+)(> )(\+\+))/,
+		negPattern = /((<@)([a-z0-9]+)(> )(\-\-))/;
 	
 	//Help
 
@@ -318,7 +319,7 @@ app.post('/karma',  (req, res) => {
 	}
 	
 	//Negative karma
-	
+/*	
 	if(negPattern.test(slackData.text)){
 		
 		authenticate(slackData.teamId, slackData.token).then(()=>{
@@ -362,7 +363,7 @@ app.post('/karma',  (req, res) => {
 			
 			sendResponse(slackData, err, res);
 		});
-	}
+	}*/
 });
 
 app.listen(config.port, 
