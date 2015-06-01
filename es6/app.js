@@ -139,6 +139,8 @@ function sendResponse(slackData, message, res){
 
 app.post('/karma',  (req, res) => {
 	
+	var configServiceA = new ConfigService();
+
 	var slackData = {
 		token: req.body.token,
 		teamId: req.body.team_id,
@@ -155,20 +157,19 @@ app.post('/karma',  (req, res) => {
 	
 	let jsonString = slackData.text.replace("init", '').trim();
 	
-	/*
 	var aService = new ConfigService();
 	
 	let configModel = new ConfigModel({
-				teamId: "111",
-				teamDomain: "2222",
+				teamId: slackData.text,
+				teamDomain: jsonString,
 				inboundWebhook: "333",
 				outboundToken: "444"
 			});
 			
 	aService.register(configModel);	
-	res.send("done");*/
+	res.send("done");
 	
-	
+	/*
 	parseJson(jsonString)
 		.then((data)=>{
 			//console.log("data 1: " + data);
@@ -179,7 +180,7 @@ app.post('/karma',  (req, res) => {
 				outboundToken: data.outboundToken || ''
 			});
 
-			configService.register(configModel);
+			configServiceA.register(configModel);*/
 				/*.then((data) => {
 					//console.log("data 2: " + data);
 					//sendResponse(slackData, data, res);
@@ -189,9 +190,9 @@ app.post('/karma',  (req, res) => {
 					//sendResponse(slackData, data, res);
 				});*/
 				
-		}).catch(()=>{
+		/*}).catch(()=>{
 			//sendResponse(slackData, "Invalid init JSON. For help see; karma: ?", res);
-		});
+		});*/
 });
 
 
