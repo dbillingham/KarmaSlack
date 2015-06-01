@@ -242,7 +242,8 @@ app.post('/karma',  (req, res) => {
 	let configService = new ConfigService();
 	
 	let helpPattern = /(\?)/,
-		initPattern = /((init \")([\s\S]*)(\" )(\")([\s\S]*)(\"))/,
+		//initPattern = /((init \")([\s\S]*)(\" )(\")([\s\S]*)(\"))/,
+		initPattern = /((init \{)([\s\S]*)(\}))/,
 		userNamePattern = /<!(.*?)>/,
 		posPattern = /((<!)([a-z0-9]+)(> )(\+\+))/,
 		negPattern = /((<!)([a-z0-9]+)(> )(\-\-))/;
