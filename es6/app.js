@@ -247,8 +247,8 @@ app.post('/karma',  (req, res) => {
 		initPattern = /((init \{)([\s\S]*)(\}))/,
 		userNamePattern = /<@(.*?)>/,
 		teamPattern = /<!(.*?)>/,
-		posPattern = /((<@)([a-z0-9]+)(> )(\+\+))/,
-		negPattern = /((<@)([a-z0-9]+)(> )(\-\-))/;
+		posPattern = /((<@)(.*)(> )(\+\+))/,
+		negPattern = /((<@)(.*)(> )(\-\-))/;
 	
 	//Help
 
