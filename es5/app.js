@@ -154,7 +154,7 @@ function sendResponse(slackData, message, res) {
 
 			channel: '#' + slackData.channelName,
 			username: 'karmabot',
-			text: message + ' | ' + teamConfig
+			text: message + ' | ' + teamConfig.inboundWebhook
 		}, function (err, response) {
 
 			console.log(response);
