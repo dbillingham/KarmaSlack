@@ -97,8 +97,6 @@ configService.register("12345","dans teamss","https://hooks.slack.com/services/T
 
 function parseJson(str) {
 
-	str = str.replace(/\\"/g, '"');
-
 	return new Promise(function (res, rej) {
 
 		try {
@@ -254,30 +252,30 @@ app.post('/karma', function (req, res) {
 
 	if (initPattern.test(slackData.text)) {
 
-		var configArray = slackData.text.replace(': init', '').trim().replace(/"/g, '').split(' ');
+		//let configArray = slackData.text.replace(": init", '').trim().replace(/"/g, '').split(' ');
+		var configArray = slackData.text.replace(': init', '').trim().replace(/"/g, '');
 
-		/*
-  parseJson(jsonString)
-  	.then((data)=>{
-  */
-		var configModel = new _es5ConfigModelJs2['default']({
-			teamId: slackData.teamId,
-			teamDomain: slackData.teamDomain,
-			inboundWebhook: configArray[1] || '',
-			outboundToken: configArray[0] || ''
+		parseJson(configArray).then(function (data) {
+
+			var configModel = new _es5ConfigModelJs2['default']({
+				teamId: slackData.teamId,
+				teamDomain: slackData.teamDomain,
+				inboundWebhook: data.inboundWebhook || '',
+				outboundToken: data.outboundToken || ''
+				//inboundWebhook: configArray[1] || '',
+				//outboundToken: configArray[0] || ''
+			});
+
+			configService.register(configModel).then(function (data) {
+
+				sendResponse(slackData, data, res);
+			})['catch'](function (data) {
+
+				sendResponse(slackData, data, res);
+			});
+		})['catch'](function () {
+			sendResponse(slackData, 'Invalid init JSON. For help see; karma: ?', res);
 		});
-
-		configService.register(configModel).then(function (data) {
-
-			sendResponse(slackData, data, res);
-		})['catch'](function (data) {
-
-			sendResponse(slackData, data, res);
-		});
-		/*					
-  			}).catch(()=>{
-  				sendResponse(slackData, "Invalid init JSON. For help see; karma: ?", res);
-  			});*/
 	}
 
 	//Positive karma

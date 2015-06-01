@@ -72,8 +72,6 @@ configService.register("12345","dans teamss","https://hooks.slack.com/services/T
 
 function parseJson(str){
 	
-	str = str.replace(/\\"/g, "\"");
-
 	return new Promise((res,rej) =>{
 		
 		try{
@@ -267,17 +265,19 @@ app.post('/karma',  (req, res) => {
 	
 	if(initPattern.test(slackData.text)){
 		
-		let configArray = slackData.text.replace(": init", '').trim().replace(/"/g, '').split(' ');
-
-		/*
-		parseJson(jsonString)
+		//let configArray = slackData.text.replace(": init", '').trim().replace(/"/g, '').split(' ');
+let configArray = slackData.text.replace(": init", '').trim().replace(/"/g, '');
+		
+		parseJson(configArray)
 			.then((data)=>{
-*/
+
 				let configModel = new ConfigModel({
 					teamId: slackData.teamId,
 					teamDomain: slackData.teamDomain,
-					inboundWebhook: configArray[1] || '',
-					outboundToken: configArray[0] || ''
+					inboundWebhook: data.inboundWebhook || '',
+					outboundToken: data.outboundToken || ''
+					//inboundWebhook: configArray[1] || '',
+					//outboundToken: configArray[0] || ''
 				});
 
 				configService.register(configModel)
@@ -289,10 +289,10 @@ app.post('/karma',  (req, res) => {
 
 						sendResponse(slackData, data, res);
 					});
-/*					
+					
 			}).catch(()=>{
 				sendResponse(slackData, "Invalid init JSON. For help see; karma: ?", res);
-			});*/
+			});
 	}
 	
 	//Positive karma
