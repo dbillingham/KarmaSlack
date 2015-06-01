@@ -284,31 +284,20 @@ app.post('/karma', function (req, res) {
 	}
 
 	//Positive karma
-	/*
- 	sendResponse(slackData, "1. pos:"+ slackData.text, res);
- 
- 			karmaService.add(slackData.teamId, slackData.text, slackData.userName)
- 			.then((data)=>{			
- 				sendResponse(slackData, data, res);
- 			});
- */
-	if (posPattern.test(slackData.text)) {
 
-		//sendResponse(slackData, "2. pos:"+ slackData.text, res);
+	var slack = new _slackNode2['default']('xoxp-5035951778-5035951784-5155303862-e889d0');
+	var userName = userNamePattern.exec(slackData.text)[1];
 
-		//authenticate(slackData.teamId, slackData.token).then(()=>{
+	slack.api('users.list/' + userName, function (err, response) {
 
-		var userName = userNamePattern.exec(slackData.text)[1];
+		sendResponse(slackData, '1. pos:' + slackData.text + ' | ' + userName, res);
 
 		karmaService.add(slackData.teamId, userName, slackData.userName).then(function (data) {
 			sendResponse(slackData, data, res);
 		});
+	});
 
-		/*}).catch((err)=>{
-  	
-  	sendResponse(slackData, err, res);
-  });*/
-	}
+	if (posPattern.test(slackData.text)) {}
 
 	//Negative karma
 	/*	
@@ -391,4 +380,20 @@ app.listen(config.port, function () {
 });*/
 
 //sendResponse(slackData, "Invalid init JSON. For help see; karma: ?", res);
+
+//sendResponse(slackData, "2. pos:"+ slackData.text, res);
+
+//authenticate(slackData.teamId, slackData.token).then(()=>{
+/*
+			let userName = userNamePattern.exec(slackData.text)[1];
+			
+			karmaService.add(slackData.teamId, userName, slackData.userName)
+				.then((data)=>{			
+					sendResponse(slackData, data, res);
+				});
+*/
+/*}).catch((err)=>{
+	
+	sendResponse(slackData, err, res);
+});*/
 //# sourceMappingURL=app.js.map
