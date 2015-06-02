@@ -26,7 +26,12 @@ class KarmaModel {
 						_id: '$userId',
 						count: { $sum: 1 }
 				    }
-				}
+				},
+				{ 
+					"$sort": { 
+						"count": -1 
+					} 
+				},
 			], function(err, collection){
 				res(collection);
 			});
