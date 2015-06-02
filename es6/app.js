@@ -339,7 +339,7 @@ app.post('/karma',  (req, res) => {
 	}
 	
 	//User Total
-	
+	/*
 	if(userIdPattern.test(slackData.text)){
 		
 		authenticate(slackData.teamId, slackData.token).then(()=>{
@@ -356,7 +356,7 @@ app.post('/karma',  (req, res) => {
 			sendResponse(slackData, err, res);
 		});
 	}
-	
+	*/
 	//Team Total
 	
 	if(teamIdPattern.test(slackData.text)){

@@ -318,22 +318,24 @@ app.post('/karma', function (req, res) {
 	}
 
 	//User Total
-
-	if (userIdPattern.test(slackData.text)) {
-
-		authenticate(slackData.teamId, slackData.token).then(function () {
-
-			var userId = userIdPattern.exec(slackData.text)[1];
-
-			karmaService.userCount(slackData.teamId, userId).then(function (data) {
-				sendResponse(slackData, data, res);
-			});
-		})['catch'](function (err) {
-
-			sendResponse(slackData, err, res);
-		});
-	}
-
+	/*
+ if(userIdPattern.test(slackData.text)){
+ 	
+ 	authenticate(slackData.teamId, slackData.token).then(()=>{
+ 		
+ 		let userId = userIdPattern.exec(slackData.text)[1];
+ 		
+ 		karmaService.userCount(slackData.teamId, userId)
+ 			.then((data)=>{			
+ 				sendResponse(slackData, data, res);
+ 			});
+ 			
+ 	}).catch((err)=>{
+ 		
+ 		sendResponse(slackData, err, res);
+ 	});
+ }
+ */
 	//Team Total
 
 	if (teamIdPattern.test(slackData.text)) {
