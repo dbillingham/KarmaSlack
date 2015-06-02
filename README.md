@@ -52,13 +52,13 @@ Click "Add Outgoing WebHooks Integration"
 Within slack, (general channel), run karma init passing the:
 - Outgoing WebHook Token
 - Incoming WebHook Url
-  ```javascript
+
         E.g:
         karma: init {
             "incomingWebhookUrl": "https://hooks.slack.com/services/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",
             "outgoingToken": "25LnEy4vXHEi88Plrpvg6htP"
         }
-  ```
+
 You should how see a confirmation message, if you dont, then either of these two properties is incorrect.
 
 ##Complete:
