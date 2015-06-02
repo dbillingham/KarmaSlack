@@ -245,7 +245,7 @@ app.post('/karma',  (req, res) => {
 	
 	let helpPattern = /(\?)/,
 		initPattern = /((init \{)([\s\S]*)(\}))/,
-		userIdPattern = /^<@(.*?)>$/,
+		userIdPattern = /<@(.*?)>/,
 		teamIdPattern = /<!everyone>/,
 		posPattern = /((<@)(.*)(> )(\+\+))/,
 		negPattern = /((<@)(.*)(> )(\-\-))/;

@@ -232,7 +232,7 @@ app.post('/karma', function (req, res) {
 
 	var helpPattern = /(\?)/,
 	    initPattern = /((init \{)([\s\S]*)(\}))/,
-	    userIdPattern = /^<@(.*?)>$/,
+	    userIdPattern = /<@(.*?)>/,
 	    teamIdPattern = /<!everyone>/,
 	    posPattern = /((<@)(.*)(> )(\+\+))/,
 	    negPattern = /((<@)(.*)(> )(\-\-))/;
