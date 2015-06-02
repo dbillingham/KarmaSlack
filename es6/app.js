@@ -17,23 +17,22 @@ import KarmaRoute from '../es5/karma.route.js';
 
 sourceMapSupportInstall();
 
-var config = new Config();
+let config = new Config();
 
-var expressService = new ExpressService(config);
+let mongooseService = new MongooseService(config);
+mongooseService.init();
 
-var karmaRoute = new KarmaRoute(expressService);
+let expressService = new ExpressService(config);
+let configService = new ConfigService();
+let slackService = new SlackService();
+let karmaRoute = new KarmaRoute(expressService, configService, slackService);
 
 //var app = Express();
 //app.use(BodyParser.urlencoded({ extended: true }));
 
+let karmaService = new KarmaService();
 
-
-var mongooseService = new MongooseService(config);
-mongooseService.init();
-
-var karmaService = new KarmaService();
-
-expressService.app.post('/karma',  (req, res) => {
+expressService.app.post('/karma2',  (req, res) => {
 	
 	/*
 	REQUEST
@@ -64,8 +63,8 @@ expressService.app.post('/karma',  (req, res) => {
 		triggerWord: req.body.trigger_word
 	};
 	
-	let configService = new ConfigService();
-	let slackService = new SlackService();
+	//let configService = new ConfigService();
+	//let slackService = new SlackService();
 	
 	let helpPattern = /(\?)/,
 		initPattern = /((init \{)([\s\S]*)(\}))/,

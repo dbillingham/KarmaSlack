@@ -48,19 +48,20 @@ var _es5KarmaRouteJs2 = _interopRequireDefault(_es5KarmaRouteJs);
 
 var config = new _es5ConfigJs2['default']();
 
-var expressService = new _es5ExpressServiceJs2['default'](config);
+var mongooseService = new _es5MongooseServiceJs2['default'](config);
+mongooseService.init();
 
-var karmaRoute = new _es5KarmaRouteJs2['default'](expressService);
+var expressService = new _es5ExpressServiceJs2['default'](config);
+var configService = new _es5ConfigServiceJs2['default']();
+var slackService = new _es5SlackServiceJs2['default']();
+var karmaRoute = new _es5KarmaRouteJs2['default'](expressService, configService, slackService);
 
 //var app = Express();
 //app.use(BodyParser.urlencoded({ extended: true }));
 
-var mongooseService = new _es5MongooseServiceJs2['default'](config);
-mongooseService.init();
-
 var karmaService = new _es5KarmaServiceJs2['default']();
 
-expressService.app.post('/karma', function (req, res) {
+expressService.app.post('/karma2', function (req, res) {
 
 	/*
  REQUEST
@@ -91,8 +92,8 @@ expressService.app.post('/karma', function (req, res) {
 		triggerWord: req.body.trigger_word
 	};
 
-	var configService = new _es5ConfigServiceJs2['default']();
-	var slackService = new _es5SlackServiceJs2['default']();
+	//let configService = new ConfigService();
+	//let slackService = new SlackService();
 
 	var helpPattern = /(\?)/,
 	    initPattern = /((init \{)([\s\S]*)(\}))/,
