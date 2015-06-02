@@ -8,6 +8,7 @@ export default class ExpressService{
 		this._config = config;
 		this._app = Express();
 		this._app.use(BodyParser.urlencoded({ extended: true }));
+		this._app.use(Express.static('public'));
 	}
 	
 	run(){

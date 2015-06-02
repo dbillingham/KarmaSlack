@@ -25,6 +25,7 @@ var ExpressService = (function () {
 		this._config = config;
 		this._app = (0, _express2['default'])();
 		this._app.use(_bodyParser2['default'].urlencoded({ extended: true }));
+		this._app.use(_express2['default']['static']('public'));
 	}
 
 	_createClass(ExpressService, [{
