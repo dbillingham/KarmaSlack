@@ -18,7 +18,7 @@ var Config = (function () {
 	_createClass(Config, [{
 		key: 'db',
 		get: function () {
-			return this._env === 'development' ? 'mongodb://localhost/karma' : 'mongodb://trunk:trunk@ds063889.mongolab.com:63889/karma';
+			return this._env === 'development' ? 'mongodb://localhost/karma' : 'mongodb://tax:taxistaxing@ds063889.mongolab.com:63889/karma';
 		}
 	}, {
 		key: 'port',
