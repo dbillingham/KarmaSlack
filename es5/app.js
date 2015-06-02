@@ -45,7 +45,7 @@ mongooseService.init();
 
 var expressService = new _es5ExpressServiceJs2['default'](config);
 var configService = new _es5ConfigServiceJs2['default']();
-var slackService = new _es5SlackServiceJs2['default']();
+var slackService = new _es5SlackServiceJs2['default'](configService);
 var karmaService = new _es5KarmaServiceJs2['default']();
 var karmaRoute = new _es5KarmaRouteJs2['default'](expressService, configService, slackService, karmaService);
 
