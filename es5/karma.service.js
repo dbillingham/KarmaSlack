@@ -45,32 +45,32 @@ var KarmaService = (function () {
 
 		//Remove Karma record
 
-		value: function remove(teamId, userName, fromUserName) {
+		value: function remove(teamId, userId, fromUserId) {
 			var _this2 = this;
 
 			return new Promise(function (res, rej) {
 
-				if (userName === fromUserName) {
+				if (userId === fromUserId) {
 					return fromSelf().then(function (data) {
 						return res(data);
 					});
 				}
 
-				return _es5KarmaModelJs2["default"].deleteLatestPoint(teamId, userName, fromUserName).then(function (entity) {
+				return _es5KarmaModelJs2["default"].deleteLatestPoint(teamId, userId, fromUserId).then(function (entity) {
 					if (!entity) {
-						return whenNoRecordFound(userName).then(function (data) {
+						return whenNoRecordFound(userId).then(function (data) {
 							return res(data);
 						});
 					}
-					return _this2.userCount(teamId, userName, "decreased").then(function (data) {
+					return _this2.userCount(teamId, userId, "decreased").then(function (data) {
 						return res(data);
 					});
 				});
 			});
 
-			function whenNoRecordFound(userName) {
+			function whenNoRecordFound(userId) {
 
-				return Promise.resolve("" + userName + " needs some positive karma from you first.");
+				return Promise.resolve("" + userId + " needs some positive karma from you first.");
 			};
 
 			function fromSelf() {
@@ -83,14 +83,14 @@ var KarmaService = (function () {
 
 		//Get Karma count for user
 
-		value: function userCount(teamId, userName, incDec) {
+		value: function userCount(teamId, userId, incDec) {
 
 			return new Promise(function (res, rej) {
-				_es5KarmaModelJs2["default"].getUserPoints(teamId, userName).then(function (collection) {
-					var responseText = "<@" + userName + "> has a karma of " + collection.length + ".";
+				_es5KarmaModelJs2["default"].getUserPoints(teamId, userId).then(function (collection) {
+					var responseText = "<@" + userId + "> has a karma of " + collection.length + ".";
 
 					if (incDec) {
-						responseText = "<@" + userName + ">s karma has " + incDec + " to " + collection.length + ".";
+						responseText = "<@" + userId + ">s karma has " + incDec + " to " + collection.length + ".";
 					}
 
 					res(responseText);

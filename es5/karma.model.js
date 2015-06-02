@@ -20,8 +20,8 @@ var _mongooseClassWrapper2 = _interopRequireDefault(_mongooseClassWrapper);
 
 var karmaSchema = _mongoose2['default'].Schema({
 	teamId: String,
-	userName: String,
-	fromUserName: String,
+	userId: String,
+	fromUserId: String,
 	created: { type: Date, 'default': Date.now }
 });
 
@@ -32,8 +32,8 @@ var KarmaModel = (function () {
 
 	_createClass(KarmaModel, null, [{
 		key: 'getUserPoints',
-		value: function getUserPoints(teamId, userName) {
-			return this.find({ teamId: teamId, userName: userName });
+		value: function getUserPoints(teamId, userId) {
+			return this.find({ teamId: teamId, userId: userId });
 		}
 	}, {
 		key: 'getTeamPoints',
@@ -46,7 +46,7 @@ var KarmaModel = (function () {
 					$match: { teamId: teamId }
 				}, {
 					$group: {
-						_id: '$userName',
+						_id: 'userId',
 						count: { $sum: 1 }
 					}
 				}], function (err, collection) {
@@ -56,8 +56,8 @@ var KarmaModel = (function () {
 		}
 	}, {
 		key: 'deleteLatestPoint',
-		value: function deleteLatestPoint(teamId, userName, fromUserName) {
-			return this.findOneAndRemove({ teamId: teamId, userName: userName, fromUserName: fromUserName }, { sort: { created: 'asc' } });
+		value: function deleteLatestPoint(teamId, userId, fromUserId) {
+			return this.findOneAndRemove({ teamId: teamId, userId: userId, fromUserId: fromUserId }, { sort: { created: 'asc' } });
 		}
 	}]);
 

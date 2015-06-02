@@ -26,29 +26,29 @@ export default class KarmaService {
 	
 	//Remove Karma record
 	
-	remove(teamId, userName, fromUserName){
+	remove(teamId, userId, fromUserId){
 		
 		return new Promise((res,rej) =>{
 			
-			if(userName === fromUserName){		
+			if(userId === fromUserId){		
 				return fromSelf()
 						.then((data)=> res(data));
 			}
 			
-			return KarmaModel.deleteLatestPoint(teamId, userName, fromUserName)	
+			return KarmaModel.deleteLatestPoint(teamId, userId, fromUserId)	
 			.then((entity) => {
 				if(!entity){
-					return whenNoRecordFound(userName)
+					return whenNoRecordFound(userId)
 							.then((data)=> res(data));
 				}		
-				return this.userCount(teamId, userName, "decreased")
+				return this.userCount(teamId, userId, "decreased")
 						.then((data) => res(data));
 			});
 		});
 		
-		function whenNoRecordFound (userName){
+		function whenNoRecordFound (userId){
 	  
-			return Promise.resolve(`${userName} needs some positive karma from you first.`);
+			return Promise.resolve(`${userId} needs some positive karma from you first.`);
 		};
 		
 		function fromSelf (){
@@ -59,15 +59,15 @@ export default class KarmaService {
 	
 	//Get Karma count for user
 	
-	userCount(teamId, userName, incDec){
+	userCount(teamId, userId, incDec){
   
 		return new Promise((res,rej) =>{
-			KarmaModel.getUserPoints(teamId, userName)
+			KarmaModel.getUserPoints(teamId, userId)
 			.then((collection) => {
-				var responseText = `<@${userName}> has a karma of ${collection.length}.`; 		 
+				var responseText = `<@${userId}> has a karma of ${collection.length}.`; 		 
 		
 				if(incDec){
-					responseText = `<@${userName}>s karma has ${incDec} to ${collection.length}.`;
+					responseText = `<@${userId}>s karma has ${incDec} to ${collection.length}.`;
 				}
 				
 				res(responseText);

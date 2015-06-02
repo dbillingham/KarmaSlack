@@ -3,15 +3,15 @@ import LoadClass from 'mongoose-class-wrapper';
 
 var karmaSchema = Mongoose.Schema({
 	teamId: String,
-	userName: String,	
-	fromUserName: String,
+	userId: String,	
+	fromUserId: String,
 	created: {type: Date, default: Date.now}
 });
 
 class KarmaModel {
 
-	static getUserPoints(teamId, userName){
-		return this.find({ teamId, userName });
+	static getUserPoints(teamId, userId){
+		return this.find({ teamId, userId });
 	}
 	
 	static getTeamPoints(teamId){
@@ -23,7 +23,7 @@ class KarmaModel {
 					$match: {teamId}
 				},{
 				    $group : {
-						_id: '$userName',
+						_id: 'userId',
 						count: { $sum: 1 }
 				    }
 				}
@@ -35,8 +35,8 @@ class KarmaModel {
 		});
 	}
 	
-	static deleteLatestPoint(teamId, userName, fromUserName){
-		return this.findOneAndRemove({ teamId, userName, fromUserName }, 
+	static deleteLatestPoint(teamId, userId, fromUserId){
+		return this.findOneAndRemove({ teamId, userId, fromUserId }, 
 		{sort: {created: 'asc'}});
 	}
 }
