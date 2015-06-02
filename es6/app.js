@@ -246,6 +246,7 @@ app.post('/karma',  (req, res) => {
 	let helpPattern = /(\?)/,
 		initPattern = /((init \{)([\s\S]*)(\}))/,
 		userIdPattern = /<@(.*?)>/,
+		userIdSinglePattern = /^<@(.*?)>$/,
 		teamIdPattern = /<!everyone>/,
 		posPattern = /((<@)(.*)(> )(\+\+))/,
 		negPattern = /((<@)(.*)(> )(\-\-))/;
@@ -339,8 +340,8 @@ app.post('/karma',  (req, res) => {
 	}
 	
 	//User Total
-	/*
-	if(userIdPattern.test(slackData.text)){
+	
+	if(userIdSinglePattern.test(slackData.text)){
 		
 		authenticate(slackData.teamId, slackData.token).then(()=>{
 			
@@ -356,7 +357,7 @@ app.post('/karma',  (req, res) => {
 			sendResponse(slackData, err, res);
 		});
 	}
-	*/
+	
 	//Team Total
 	
 	if(teamIdPattern.test(slackData.text)){
