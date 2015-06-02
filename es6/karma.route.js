@@ -148,7 +148,7 @@ export default class KarmaRoute{
 
 			let userId = KarmaRegex.userIdPattern.exec(slackData.text)[1];
 			
-			karmaService.remove(slackData.teamId, userId, slackData.userId)
+			this._karmaService.remove(slackData.teamId, userId, slackData.userId)
 				.then((data)=>{			
 					this._slackService.sendResponse(slackData, data, res);
 				});
@@ -163,7 +163,7 @@ export default class KarmaRoute{
 			
 			let userId = KarmaRegex.userIdPattern.exec(slackData.text)[1];
 			
-			karmaService.userCount(slackData.teamId, userId)
+			this._karmaService.userCount(slackData.teamId, userId)
 				.then((data)=>{			
 					this._slackService.sendResponse(slackData, data, res);
 				});
@@ -176,7 +176,7 @@ export default class KarmaRoute{
 	_teamTotalCommand(slackData, res){
 		this._slackService.authenticate(slackData.teamId, slackData.token).then(()=>{
 			
-			karmaService.teamCount(slackData.teamId)
+			this._karmaService.teamCount(slackData.teamId)
 				.then((data)=>{			
 					this._slackService.sendResponse(slackData, data, res);
 				});

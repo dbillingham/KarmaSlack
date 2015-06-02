@@ -172,7 +172,7 @@ var KarmaRoute = (function () {
 
 				var userId = _es5KarmaregexJs2['default'].userIdPattern.exec(slackData.text)[1];
 
-				karmaService.remove(slackData.teamId, userId, slackData.userId).then(function (data) {
+				_this4._karmaService.remove(slackData.teamId, userId, slackData.userId).then(function (data) {
 					_this4._slackService.sendResponse(slackData, data, res);
 				});
 			})['catch'](function (err) {
@@ -188,7 +188,7 @@ var KarmaRoute = (function () {
 
 				var userId = _es5KarmaregexJs2['default'].userIdPattern.exec(slackData.text)[1];
 
-				karmaService.userCount(slackData.teamId, userId).then(function (data) {
+				_this5._karmaService.userCount(slackData.teamId, userId).then(function (data) {
 					_this5._slackService.sendResponse(slackData, data, res);
 				});
 			})['catch'](function (err) {
@@ -202,7 +202,7 @@ var KarmaRoute = (function () {
 
 			this._slackService.authenticate(slackData.teamId, slackData.token).then(function () {
 
-				karmaService.teamCount(slackData.teamId).then(function (data) {
+				_this6._karmaService.teamCount(slackData.teamId).then(function (data) {
 					_this6._slackService.sendResponse(slackData, data, res);
 				});
 			})['catch'](function (err) {
