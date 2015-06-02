@@ -70,7 +70,7 @@ var KarmaService = (function () {
 
 			function whenNoRecordFound(userId) {
 
-				return Promise.resolve("" + userId + " needs some positive karma from you first.");
+				return Promise.resolve("<@" + userId + "> needs some positive karma from you first.");
 			};
 
 			function fromSelf() {
