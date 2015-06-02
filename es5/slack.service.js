@@ -31,7 +31,7 @@ var SlackService = (function () {
 		value: function parseJson(str) {
 
 			return new Promise(function (res, rej) {
-
+				console.log(str);
 				try {
 					str = str.replace(/\\"/g, '');
 					res(JSON.parse(str));
@@ -71,7 +71,7 @@ var SlackService = (function () {
 	}, {
 		key: 'sendResponse',
 
-		//Sentd slack response
+		//Send slack response
 
 		value: function sendResponse(slackData, message, res) {
 

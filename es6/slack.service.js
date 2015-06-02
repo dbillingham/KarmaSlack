@@ -12,7 +12,7 @@ export default class SlackService {
 	parseJson(str){	
 			
 		return new Promise((res,rej) =>{
-			
+			console.log(str);
 			try{
 				str = str.replace(/\\"/g, '');
 				res(JSON.parse(str));
@@ -49,7 +49,7 @@ export default class SlackService {
 		});
 	}
 	
-	//Sentd slack response
+	//Send slack response
 	
 	sendResponse(slackData, message, res){
 	  
