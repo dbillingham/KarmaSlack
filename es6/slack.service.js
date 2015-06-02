@@ -57,7 +57,8 @@ export default class SlackService {
 			message = "Invalid Command. For help see; karma: ?";
 		}
 		
-		//res.send(message);
+		res.send(message);
+		return;
 		
 		let slackRes = new Slack();
 		let configService = new ConfigService();

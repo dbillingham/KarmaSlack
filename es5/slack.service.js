@@ -79,7 +79,8 @@ var SlackService = (function () {
 				message = 'Invalid Command. For help see; karma: ?';
 			}
 
-			//res.send(message);
+			res.send(message);
+			return;
 
 			var slackRes = new _slackNode2['default']();
 			var configService = new _es5ConfigServiceJs2['default']();
