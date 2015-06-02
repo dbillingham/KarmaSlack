@@ -1,3 +1,5 @@
+import ConfigModel from '../es5/config.model.js';
+
 export default class KarmaRoute{
 	
 	constructor(expressService, configService, slackService) {
@@ -94,7 +96,7 @@ export default class KarmaRoute{
 					outboundToken: data.outboundToken || ''					
 				});
 
-				configService.register(configModel)
+				this._configService.register(configModel)
 					.then((data) => {
 
 						this._slackService.sendResponse(slackData, data, res);
