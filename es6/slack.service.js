@@ -60,6 +60,7 @@ export default class SlackService {
 		//res.send(message);
 		
 		let slackRes = new Slack();
+		let configService = new ConfigService();
 		
 		configService.getConfig(slackData.teamId).then((data)=>{
 			

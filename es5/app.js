@@ -77,10 +77,6 @@ karmaService.add("111", "DAN", "Craigssss").then((data)=>{
 
 //Regsiter
 
-var configService = new _es5ConfigServiceJs2['default']();
-
-var slackService = new _es5SlackServiceJs2['default']();
-
 //karma: init https://hooks.slack.com/services/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
 
 /*
@@ -203,6 +199,7 @@ app.post('/karma', function (req, res) {
 	};
 
 	var configService = new _es5ConfigServiceJs2['default']();
+	var slackService = new _es5SlackServiceJs2['default']();
 
 	var helpPattern = /(\?)/,
 	    initPattern = /((init \{)([\s\S]*)(\}))/,

@@ -82,6 +82,7 @@ var SlackService = (function () {
 			//res.send(message);
 
 			var slackRes = new _slackNode2['default']();
+			var configService = new _es5ConfigServiceJs2['default']();
 
 			configService.getConfig(slackData.teamId).then(function (data) {
 

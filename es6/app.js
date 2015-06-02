@@ -48,10 +48,6 @@ karmaService.add("111", "DAN", "Craigssss").then((data)=>{
 
 //Regsiter
 
-var configService = new ConfigService();
-
-let slackService = new SlackService();
-
 
 //karma: init https://hooks.slack.com/services/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
 
@@ -176,6 +172,7 @@ app.post('/karma',  (req, res) => {
 	};
 	
 	let configService = new ConfigService();
+	let slackService = new SlackService();
 	
 	let helpPattern = /(\?)/,
 		initPattern = /((init \{)([\s\S]*)(\}))/,
