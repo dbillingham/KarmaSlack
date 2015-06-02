@@ -112,7 +112,7 @@ var KarmaRoute = (function () {
 			slackResponse += '\n Team karma = karma: @everyone';
 			slackResponse += '\n Setup karma = karma: init {';
 			slackResponse += '\n  "incomingWebhookUrl": "https://hooks.slack.com/services/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",';
-			slackResponse += '\n  "outgoingToken": "25LnEy4vXHEi88Plrpvg6htP';
+			slackResponse += '\n  "outgoingToken": "25LnEy4vXHEi88Plrpvg6htP"';
 			slackResponse += '\n }';
 			this._slackService.sendResponse(slackData, slackResponse, res);
 		}
