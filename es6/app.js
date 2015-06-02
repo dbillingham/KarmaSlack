@@ -246,7 +246,7 @@ app.post('/karma',  (req, res) => {
 	let helpPattern = /(\?)/,
 		initPattern = /((init \{)([\s\S]*)(\}))/,
 		userIdPattern = /<@(.*?)>/,
-		teamIdPattern = /<!(.*?)>/,
+		teamIdPattern = /<!everyone>/,
 		posPattern = /((<@)(.*)(> )(\+\+))/,
 		negPattern = /((<@)(.*)(> )(\-\-))/;
 	
@@ -339,32 +339,42 @@ app.post('/karma',  (req, res) => {
 	}
 	
 	//User Total
-/*	
+	
 	if(userIdPattern.test(slackData.text)){
 		
 		authenticate(slackData.teamId, slackData.token).then(()=>{
 			
 			let userId = userIdPattern.exec(slackData.text)[1];
 			
-			if(userId === 'everyone'){
-				
-				karmaService.teamCount(slackData.teamId)
-					.then((data)=>{			
-						sendResponse(slackData, data, res);
-					});				
-			}else{
-				
-				karmaService.userCount(slackData.teamId, userId)
-					.then((data)=>{			
-						sendResponse(slackData, data, res);
-					});
-			}
+			karmaService.userCount(slackData.teamId, userId)
+				.then((data)=>{			
+					sendResponse(slackData, data, res);
+				});
 				
 		}).catch((err)=>{
 			
 			sendResponse(slackData, err, res);
 		});
-	}*/
+	}
+	
+	//Team Total
+	
+	if(teamIdPattern.test(slackData.text)){
+		
+		authenticate(slackData.teamId, slackData.token).then(()=>{
+			
+			let userId = teamIdPattern.exec(slackData.text)[1];
+			
+			karmaService.teamCount(slackData.teamId)
+				.then((data)=>{			
+					sendResponse(slackData, data, res);
+				});
+				
+		}).catch((err)=>{
+			
+			sendResponse(slackData, err, res);
+		});
+	}
 });
 
 app.listen(config.port, 
