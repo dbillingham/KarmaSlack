@@ -27,31 +27,40 @@ Click "Add Outgoing WebHooks Integration"
 
     ![Outgoing WebHook Config](http://warm-sea-8289.herokuapp.com/instructions/outgoingWebHooksConfig.JPG)
 
-Create the deferred object. Call its resolve or reject methods in the body. Then return the deferred promise.
+##Create new Incoming WebHook:
 
-	function promiseOld(field) {
+    Shortcut: https://<team>.slack.com/services/new/incoming-webhook
+- Go to slack home "https://<team>.slack.com/home"
+- Click "Integration"
+- Click "Add" on "Incoming WebHooks"
 
-		var deferred = $q.defer();
+###Fill in the following configuration:
+- Post to Channel: #general
 
-		dataService1(field).then(function() {
-			deferred.resolve();
-		});
+- Click "Add Incoming WebHooks Integration"
+- Fill in the following configuration:
+- Post to Channel: #general
+- Webhook URL: (Leave as default)(copy this as you will need it later)
+- Descriptive Label: (Leave as default)
+- Customize Name: karma
+- Customize Icon: (choose cat icon)
+- Click "Save Settings"
 
-		return deferred.promise;
-	}
+    ![Incoming WebHook Config](http://warm-sea-8289.herokuapp.com/instructions/incomingWebHooksConfig.JPG)
 
-#ES6 Style Way
-Return $q() which takes a functions with resolve and reject parameters through its construction. Then simply call resolve() / reject() methods within the function.
+##Initialising karma:
+Within slack, (general channel), run karma init passing the:
+- Outgoing WebHook Token
+- Incoming WebHook Url
+  ```javascript
+        E.g:
+        karma: init {
+            "incomingWebhookUrl": "https://hooks.slack.com/services/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",
+            "outgoingToken": "25LnEy4vXHEi88Plrpvg6htP"
+        }
+  ```
+You should how see a confirmation message, if you dont, then either of these two properties is incorrect.
 
-	function promiseNew(field) {
+##Complete:
 
-		return $q(function(resovle){
-		
-			dataService1(field).then(function() {
-				resolve();
-			});
-		});
-	}
-
-#Conclusion
-To conclude, this is a much cleaner code which ties closer to the promise interface found within the ES6 specification.
+run "karma: ?" for a full list of karma commands
