@@ -14,13 +14,11 @@ var _slackNode = require('slack-node');
 
 var _slackNode2 = _interopRequireDefault(_slackNode);
 
-var _es5ConfigServiceJs = require('../es5/config.service.js');
-
-var _es5ConfigServiceJs2 = _interopRequireDefault(_es5ConfigServiceJs);
-
 var SlackService = (function () {
-	function SlackService() {
+	function SlackService(configService) {
 		_classCallCheck(this, SlackService);
+
+		this._configService = configService;
 	}
 
 	_createClass(SlackService, [{
@@ -46,12 +44,11 @@ var SlackService = (function () {
 		//Authenticate request
 
 		value: function authenticate(teamId, token) {
+			var _this = this;
 
 			return new Promise(function (res, rej) {
 
-				var configService = new _es5ConfigServiceJs2['default']();
-
-				configService.getConfig(teamId).then(function (data) {
+				_this._configService.getConfig(teamId).then(function (data) {
 
 					if (!data) {
 						rej('No config found.');
@@ -83,9 +80,8 @@ var SlackService = (function () {
 			//return;
 
 			var slackRes = new _slackNode2['default']();
-			var configService = new _es5ConfigServiceJs2['default']();
 
-			configService.getConfig(slackData.teamId).then(function (data) {
+			this._configService.getConfig(slackData.teamId).then(function (data) {
 
 				//data.inboundWebhook = "https://hooks.slack.com/services/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";
 

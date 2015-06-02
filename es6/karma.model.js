@@ -45,11 +45,6 @@ class KarmaModel {
 		{sort: {created: 'asc'}});
 	}
 }
-/*
-schema.statics.nameContains = function(name, cb){
-	return this.find({name: new RegExp(name, 'i')}, cb);	
-};
-*/
 
 karmaSchema.plugin(LoadClass, KarmaModel);
 

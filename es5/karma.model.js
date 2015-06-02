@@ -68,12 +68,6 @@ var KarmaModel = (function () {
 	return KarmaModel;
 })();
 
-/*
-schema.statics.nameContains = function(name, cb){
-	return this.find({name: new RegExp(name, 'i')}, cb);	
-};
-*/
-
 karmaSchema.plugin(_mongooseClassWrapper2['default'], KarmaModel);
 
 exports['default'] = _mongoose2['default'].model('Karma', karmaSchema);

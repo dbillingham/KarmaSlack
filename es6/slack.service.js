@@ -1,10 +1,10 @@
 import Slack from 'slack-node';
-import ConfigService from '../es5/config.service.js'; 
 
 export default class SlackService {
 	
-	constructor() {
+	constructor(configService) {
 		
+		this._configService = configService;
 	}
 	
 	//Parse json data
@@ -27,10 +27,8 @@ export default class SlackService {
 	authenticate(teamId, token){
 
 		return new Promise((res,rej)=>{
-			
-			let configService = new ConfigService();
 	
-			configService.getConfig(teamId)
+			this._configService.getConfig(teamId)
 				.then((data) => {
 	
 					if(!data){
@@ -61,9 +59,8 @@ export default class SlackService {
 		//return;
 		
 		let slackRes = new Slack();
-		let configService = new ConfigService();
 		
-		configService.getConfig(slackData.teamId).then((data)=>{
+		this._configService.getConfig(slackData.teamId).then((data)=>{
 			
 			//data.inboundWebhook = "https://hooks.slack.com/services/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";
 			
