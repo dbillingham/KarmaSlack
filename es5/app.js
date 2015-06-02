@@ -121,7 +121,7 @@ function authenticate(teamId, token) {
 			}
 
 			if (token !== data.outboundToken) {
-				rej('Invalid token.');
+				rej('Invalid token. ' + token + ' | ' + data.outboundToken);
 			}
 
 			res();
