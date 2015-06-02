@@ -301,16 +301,12 @@ app.post('/karma',  (req, res) => {
 	}
 	
 	//Positive karma
-	
-
-	
 
 	
 	
 	if(posPattern.test(slackData.text)){
-		
-		/*
-					let userName = userNamePattern.exec(slackData.text)[1];
+	/*	
+		let userName = userNamePattern.exec(slackData.text)[1];
 	sendResponse(slackData, "0.5. pos:"+ userName, res);
 	
 		let slackA = new Slack("xoxp-5035951778-5035951784-5155303862-e889d0");
@@ -325,23 +321,23 @@ app.post('/karma',  (req, res) => {
 					sendResponse(slackData, data, res);
 				});
 				
+				
 		});
 		*/
-		
 		
 		
 		
 		//sendResponse(slackData, "2. pos:"+ slackData.text, res);
 		
 		//authenticate(slackData.teamId, slackData.token).then(()=>{
-/*
+
 			let userName = userNamePattern.exec(slackData.text)[1];
 			
 			karmaService.add(slackData.teamId, userName, slackData.userName)
 				.then((data)=>{			
 					sendResponse(slackData, data, res);
 				});
-*/				
+				
 		/*}).catch((err)=>{
 			
 			sendResponse(slackData, err, res);

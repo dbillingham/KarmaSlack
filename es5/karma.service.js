@@ -87,10 +87,10 @@ var KarmaService = (function () {
 
 			return new Promise(function (res, rej) {
 				_es5KarmaModelJs2["default"].getUserPoints(teamId, userName).then(function (collection) {
-					var responseText = "" + userName + " has a karma of " + collection.length + ".";
+					var responseText = "<@" + userName + "> has a karma of " + collection.length + ".";
 
 					if (incDec) {
-						responseText = "" + userName + "s karma has " + incDec + " to " + collection.length + ".";
+						responseText = "<@" + userName + ">s karma has " + incDec + " to " + collection.length + ".";
 					}
 
 					res(responseText);

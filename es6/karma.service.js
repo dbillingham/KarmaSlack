@@ -64,10 +64,10 @@ export default class KarmaService {
 		return new Promise((res,rej) =>{
 			KarmaModel.getUserPoints(teamId, userName)
 			.then((collection) => {
-				var responseText = `${userName} has a karma of ${collection.length}.`; 		 
+				var responseText = `<@${userName}> has a karma of ${collection.length}.`; 		 
 		
 				if(incDec){
-					responseText = `${userName}s karma has ${incDec} to ${collection.length}.`;
+					responseText = `<@${userName}>s karma has ${incDec} to ${collection.length}.`;
 				}
 				
 				res(responseText);
