@@ -302,11 +302,9 @@ app.post('/karma',  (req, res) => {
 	
 	//Positive karma
 
-	
-	
 	if(posPattern.test(slackData.text)){
 		
-		//authenticate(slackData.teamId, slackData.token).then(()=>{
+		authenticate(slackData.teamId, slackData.token).then(()=>{
 
 			let userId = userIdPattern.exec(slackData.text)[1];
 			
@@ -315,14 +313,14 @@ app.post('/karma',  (req, res) => {
 					sendResponse(slackData, data, res);
 				});
 				
-		/*}).catch((err)=>{
+		}).catch((err)=>{
 			
 			sendResponse(slackData, err, res);
-		});*/
+		});
 	}
 	
 	//Negative karma
-/*	
+	
 	if(negPattern.test(slackData.text)){
 		
 		authenticate(slackData.teamId, slackData.token).then(()=>{
@@ -341,7 +339,7 @@ app.post('/karma',  (req, res) => {
 	}
 	
 	//User Total
-	
+/*	
 	if(userIdPattern.test(slackData.text)){
 		
 		authenticate(slackData.teamId, slackData.token).then(()=>{

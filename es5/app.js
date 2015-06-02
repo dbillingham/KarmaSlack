@@ -287,41 +287,38 @@ app.post('/karma', function (req, res) {
 
 	if (posPattern.test(slackData.text)) {
 
-		//authenticate(slackData.teamId, slackData.token).then(()=>{
+		authenticate(slackData.teamId, slackData.token).then(function () {
 
-		var userId = userIdPattern.exec(slackData.text)[1];
+			var userId = userIdPattern.exec(slackData.text)[1];
 
-		karmaService.add(slackData.teamId, userId, slackData.userId).then(function (data) {
-			sendResponse(slackData, data, res);
+			karmaService.add(slackData.teamId, userId, slackData.userId).then(function (data) {
+				sendResponse(slackData, data, res);
+			});
+		})['catch'](function (err) {
+
+			sendResponse(slackData, err, res);
 		});
-
-		/*}).catch((err)=>{
-  	
-  	sendResponse(slackData, err, res);
-  });*/
 	}
 
 	//Negative karma
+
+	if (negPattern.test(slackData.text)) {
+
+		authenticate(slackData.teamId, slackData.token).then(function () {
+
+			var userId = userIdPattern.exec(slackData.text)[1];
+
+			karmaService.remove(slackData.teamId, userId, slackData.userId).then(function (data) {
+				sendResponse(slackData, data, res);
+			});
+		})['catch'](function (err) {
+
+			sendResponse(slackData, err, res);
+		});
+	}
+
+	//User Total
 	/*	
- 	if(negPattern.test(slackData.text)){
- 		
- 		authenticate(slackData.teamId, slackData.token).then(()=>{
- 
- 			let userId = userIdPattern.exec(slackData.text)[1];
- 			
- 			karmaService.remove(slackData.teamId, userId, slackData.userId)
- 				.then((data)=>{			
- 					sendResponse(slackData, data, res);
- 				});
- 				
- 		}).catch((err)=>{
- 			
- 			sendResponse(slackData, err, res);
- 		});
- 	}
- 	
- 	//User Total
- 	
  	if(userIdPattern.test(slackData.text)){
  		
  		authenticate(slackData.teamId, slackData.token).then(()=>{
