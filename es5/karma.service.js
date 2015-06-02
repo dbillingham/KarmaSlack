@@ -111,7 +111,7 @@ var KarmaService = (function () {
 
 					for (var user = 0, len = collection.length; user < len; user++) {
 						var element = collection[user];
-						responseText += " " + element._id + " has a karma of " + element.count + ". \n";
+						responseText += " <!" + element._id + "> has a karma of " + element.count + ". \n";
 					}
 					res(responseText);
 				});

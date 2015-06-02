@@ -87,7 +87,7 @@ export default class KarmaService {
 				
 				for (let user = 0, len = collection.length; user < len; user++) {
 					let element = collection[user];
-					responseText += ` ${element._id} has a karma of ${element.count}. \n`;
+					responseText += ` <!${element._id}> has a karma of ${element.count}. \n`;
 				}
 				res(responseText);
 			});

@@ -46,7 +46,7 @@ var KarmaModel = (function () {
 					$match: { teamId: teamId }
 				}, {
 					$group: {
-						_id: 'userId',
+						_id: '$userId',
 						count: { $sum: 1 }
 					}
 				}], function (err, collection) {

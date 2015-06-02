@@ -23,7 +23,7 @@ class KarmaModel {
 					$match: {teamId}
 				},{
 				    $group : {
-						_id: 'userId',
+						_id: '$userId',
 						count: { $sum: 1 }
 				    }
 				}
