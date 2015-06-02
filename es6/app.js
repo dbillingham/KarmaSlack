@@ -1,16 +1,16 @@
 import { install as sourceMapSupportInstall } from 'source-map-support';
 
-import Config from '../es5/config.js'; 
+import Config from './config/config.js'; 
 
-import ConfigModel from '../es5/config.model.js';
+import ConfigModel from './config/config.model.js';
  
-import MongooseService from '../es5/mongoose.service.js';
-import KarmaService from '../es5/karma.service.js'; 
-import ConfigService from '../es5/config.service.js'; 
-import SlackService from '../es5/slack.service.js'; 
-import ExpressService from '../es5/express.service.js'; 
+import MongooseService from './core/mongoose.service.js';
+import KarmaService from './karma/karma.service.js'; 
+import ConfigService from './config/config.service.js'; 
+import SlackService from './core/slack.service.js'; 
+import ExpressService from './core/express.service.js'; 
 
-import KarmaRoute from '../es5/karma.route.js'; 
+import KarmaRoute from './karma/karma.route.js'; 
 
 sourceMapSupportInstall();
 

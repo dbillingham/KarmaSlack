@@ -24,17 +24,3 @@ gulp.task('watch', function() {
 });
 
 gulp.task('default', ['watch']);
-
-/*	
-gulp.task("one", function(){
-	return gulp.src("app3.js")
-		.pipe(babel())
-		.pipe(gulp.dest("dist"));
-});
-
-gulp.task("two", function(){
-	//run('echo Hello World').exec()
-});
-
-gulp.task('default', ['one', 'two']);
-*/
