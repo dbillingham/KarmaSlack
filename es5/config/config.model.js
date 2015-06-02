@@ -21,8 +21,8 @@ var _mongooseClassWrapper2 = _interopRequireDefault(_mongooseClassWrapper);
 var configSchema = _mongoose2['default'].Schema({
 	teamId: String,
 	teamDomain: String,
-	inboundWebhook: String,
-	outboundToken: String,
+	incomingWebhookUrl: String,
+	outgoingToken: String,
 	//apiToken: String,
 	created: { type: Date, 'default': Date.now }
 });

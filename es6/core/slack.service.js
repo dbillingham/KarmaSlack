@@ -35,7 +35,7 @@ export default class SlackService {
 						rej("No config found.");
 					}
 	
-					if(token !== data.outboundToken){
+					if(token !== data.outgoingToken){
 						rej("Invalid token.");
 					}
 					
@@ -62,11 +62,11 @@ export default class SlackService {
 		
 		this._configService.getConfig(slackData.teamId).then((data)=>{
 			
-			//data.inboundWebhook = "https://hooks.slack.com/services/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";
+			//data.incomingWebhookUrl = "https://hooks.slack.com/services/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";
 			
-			if(data.inboundWebhook){
+			if(data.incomingWebhookUrl){
 				
-				slackRes.setWebhook(data.inboundWebhook);
+				slackRes.setWebhook(data.incomingWebhookUrl);
 			
 				slackRes.webhook({
 					

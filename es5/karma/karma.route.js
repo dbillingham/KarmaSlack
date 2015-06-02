@@ -111,8 +111,8 @@ var KarmaRoute = (function () {
 			slackResponse += '\n User karma = karma: @user';
 			slackResponse += '\n Team karma = karma: @everyone';
 			slackResponse += '\n Setup karma = karma: init {';
-			slackResponse += '\n  "inboundWebhook": "https://hooks.slack.com/services/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",';
-			slackResponse += '\n  "outboundToken": "25LnEy4vXHEi88Plrpvg6htP';
+			slackResponse += '\n  "incomingWebhookUrl": "https://hooks.slack.com/services/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",';
+			slackResponse += '\n  "outgoingToken": "25LnEy4vXHEi88Plrpvg6htP';
 			slackResponse += '\n }';
 			this._slackService.sendResponse(slackData, slackResponse, res);
 		}
@@ -126,14 +126,14 @@ var KarmaRoute = (function () {
 			this._slackService.parseJson(configJsonString).then(function (data) {
 
 				//Remove the '<>' from the inbound webhook that slack seems to add around urls.
-				data.inboundWebhook = data.inboundWebhook.replace(/<|>/g, '');
+				data.incomingWebhookUrl = data.incomingWebhookUrl.replace(/<|>/g, '');
 
 				var configModel = new _configConfigModelJs2['default']({
 					teamId: slackData.teamId,
 					teamDomain: slackData.teamDomain,
 					//apiToken: data.apiToken || ''
-					inboundWebhook: data.inboundWebhook || '',
-					outboundToken: data.outboundToken || ''
+					incomingWebhookUrl: data.incomingWebhookUrl || '',
+					outgoingToken: data.outgoingToken || ''
 				});
 
 				_this2._configService.register(configModel).then(function (data) {
