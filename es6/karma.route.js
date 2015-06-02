@@ -1,19 +1,21 @@
 import ConfigModel from '../es5/config.model.js';
+import KarmaRegex from '../es5/karmaregex.js';
 
 export default class KarmaRoute{
 	
-	constructor(expressService, configService, slackService) {
+	constructor(expressService, configService, slackService, karmaService) {
 		
 		this._app = expressService.app;
 		this._configService = configService;
 		this._slackService = slackService;
+		this._karmaService = karmaService;
 		this._init();
 	}
 	
 	_init(){
 		
 		this._app.post('/karma',  (req, res) => {
-			
+	
 			/*
 			REQUEST
 				token=XXXXXXXXXXXXXXXXXX
@@ -42,27 +44,42 @@ export default class KarmaRoute{
 				text: req.body.text.replace(req.body.trigger_word + ':', '').trim(),
 				triggerWord: req.body.trigger_word
 			};
-			
-			let helpPattern = /(\?)/,
-				initPattern = /((init \{)([\s\S]*)(\}))/,
-				userIdPattern = /<@(.*?)>/,
-				userIdSinglePattern = /^<@(.*?)>$/,
-				teamIdPattern = /<!everyone>/,
-				posPattern = /((<@)(.*)(> )(\+\+))/,
-				negPattern = /((<@)(.*)(> )(\-\-))/;
-			
+						
 			//Help
 		
-			if(helpPattern.test(slackData.text)){
+			if(KarmaRegex.helpPattern.test(slackData.text)){
 				this._helpCommand(slackData, res);
 			}
 			
 			//Init
 	
-			if(initPattern.test(slackData.text)){				
+			if(KarmaRegex.initPattern.test(slackData.text)){				
 				this._initCommand(slackData, res);
 			}
 			
+			//Positive karma
+		
+			if(KarmaRegex.posPattern.test(slackData.text)){
+				this._posCommand(slackData, res);
+			}
+			
+			//Negative karma
+	
+			if(KarmaRegex.negPattern.test(slackData.text)){				
+				this._negCommand(slackData, res);
+			}
+			
+			//User Total
+			
+			if(KarmaRegex.userIdSinglePattern.test(slackData.text)){
+				this._userTotalCommand(slackData, res);
+			}
+			
+			//Team Total
+			
+			if(KarmaRegex.teamIdPattern.test(slackData.text)){
+				this._teamTotalCommand(slackData, res);
+			}
 		});	
 	}
 	
@@ -111,5 +128,61 @@ export default class KarmaRoute{
 			});
 	}
 	
+	_posCommand(slackData, res){
+		this._slackService.authenticate(slackData.teamId, slackData.token).then(()=>{
 
+			let userId = KarmaRegex.userIdPattern.exec(slackData.text)[1];
+			
+			this._karmaService.add(slackData.teamId, userId, slackData.userId)
+				.then((data)=>{			
+					this._slackService.sendResponse(slackData, data, res);
+				});
+				
+		}).catch((err)=>{			
+			this._slackService.sendResponse(slackData, err, res);
+		});
+	}
+	
+	_negCommand(slackData, res){
+		this._slackService.authenticate(slackData.teamId, slackData.token).then(()=>{
+
+			let userId = KarmaRegex.userIdPattern.exec(slackData.text)[1];
+			
+			karmaService.remove(slackData.teamId, userId, slackData.userId)
+				.then((data)=>{			
+					this._slackService.sendResponse(slackData, data, res);
+				});
+				
+		}).catch((err)=>{			
+			this._slackService.sendResponse(slackData, err, res);
+		});
+	}
+	
+	_userTotalCommand(slackData, res){
+		this._slackService.authenticate(slackData.teamId, slackData.token).then(()=>{
+			
+			let userId = KarmaRegex.userIdPattern.exec(slackData.text)[1];
+			
+			karmaService.userCount(slackData.teamId, userId)
+				.then((data)=>{			
+					this._slackService.sendResponse(slackData, data, res);
+				});
+				
+		}).catch((err)=>{			
+			this._slackService.sendResponse(slackData, err, res);
+		});
+	}
+	
+	_teamTotalCommand(slackData, res){
+		this._slackService.authenticate(slackData.teamId, slackData.token).then(()=>{
+			
+			karmaService.teamCount(slackData.teamId)
+				.then((data)=>{			
+					this._slackService.sendResponse(slackData, data, res);
+				});
+				
+		}).catch((err)=>{			
+			this._slackService.sendResponse(slackData, err, res);
+		});
+	}
 };

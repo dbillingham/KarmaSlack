@@ -25,12 +25,13 @@ mongooseService.init();
 let expressService = new ExpressService(config);
 let configService = new ConfigService();
 let slackService = new SlackService();
-let karmaRoute = new KarmaRoute(expressService, configService, slackService);
+let karmaService = new KarmaService();
+let karmaRoute = new KarmaRoute(expressService, configService, slackService, karmaService);
 
 //var app = Express();
 //app.use(BodyParser.urlencoded({ extended: true }));
 
-let karmaService = new KarmaService();
+
 
 expressService.app.post('/karma2',  (req, res) => {
 	
