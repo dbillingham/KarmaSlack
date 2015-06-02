@@ -8,17 +8,17 @@ export default class KarmaService {
 	
 	//Add Karma record
 	
-	add(teamId, userName, fromUserName){		
+	add(teamId, userId, fromUserId){		
 
 		return new Promise((res,rej) =>{
 			
 			KarmaModel.create({
 				"teamId": teamId,
-				"userName": userName,
-				"fromUserName": fromUserName
+				"userId": userId,
+				"fromUserId": fromUserId
 			})
 			.then(() => {		
-				return this.userCount(teamId, userName, "increased")
+				return this.userCount(teamId, userId, "increased")
 						.then((data) => res(data));
 			});
 		});

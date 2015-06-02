@@ -24,17 +24,17 @@ var KarmaService = (function () {
 
 		//Add Karma record
 
-		value: function add(teamId, userName, fromUserName) {
+		value: function add(teamId, userId, fromUserId) {
 			var _this = this;
 
 			return new Promise(function (res, rej) {
 
 				_es5KarmaModelJs2["default"].create({
 					"teamId": teamId,
-					"userName": userName,
-					"fromUserName": fromUserName
+					"userId": userId,
+					"fromUserId": fromUserId
 				}).then(function () {
-					return _this.userCount(teamId, userName, "increased").then(function (data) {
+					return _this.userCount(teamId, userId, "increased").then(function (data) {
 						return res(data);
 					});
 				});
