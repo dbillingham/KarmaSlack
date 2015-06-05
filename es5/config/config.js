@@ -13,7 +13,7 @@ var Config = (function () {
 		_classCallCheck(this, Config);
 
 		this._env = process.env.NODE_ENV || 'development';
-		this._port = process.env.PORT || '3000';
+		this._port = process.env.PORT || 80;
 		this._mongodbName = process.env.MONGODB_NAME || 'karmatest';
 		this._mongodbUsername = process.env.MONGODB_USERNAME || 'trunk';
 		this._mongodbPassword = process.env.MONGODB_PASSWORD || 'trunk';
@@ -27,7 +27,7 @@ var Config = (function () {
 	}, {
 		key: 'port',
 		get: function () {
-			return this._port;
+			return this.productionEnv ? this._port : '3000';
 		}
 	}, {
 		key: 'productionEnv',
