@@ -1,6 +1,6 @@
 import { install as sourceMapSupportInstall } from 'source-map-support';
 
-import Config from './config/config.js'; 
+import Config from './core/config.js'; 
 
 import ConfigModel from './config/config.model.js';
  

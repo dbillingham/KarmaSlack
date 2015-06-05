@@ -4,9 +4,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 var _sourceMapSupport = require('source-map-support');
 
-var _configConfigJs = require('./config/config.js');
+var _coreConfigJs = require('./core/config.js');
 
-var _configConfigJs2 = _interopRequireDefault(_configConfigJs);
+var _coreConfigJs2 = _interopRequireDefault(_coreConfigJs);
 
 var _configConfigModelJs = require('./config/config.model.js');
 
@@ -38,7 +38,7 @@ var _karmaKarmaRouteJs2 = _interopRequireDefault(_karmaKarmaRouteJs);
 
 (0, _sourceMapSupport.install)();
 
-var config = new _configConfigJs2['default']();
+var config = new _coreConfigJs2['default']();
 
 var mongooseService = new _coreMongooseServiceJs2['default'](config);
 mongooseService.init();
