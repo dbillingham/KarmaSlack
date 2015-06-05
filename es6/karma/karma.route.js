@@ -14,6 +14,10 @@ export default class KarmaRoute{
 	
 	_init(){
 		
+		this._app.post('/karma2',  (req, res) => {
+			res.send("ssss");
+		});
+		
 		this._app.post('/karma',  (req, res) => {
 	
 			/*
