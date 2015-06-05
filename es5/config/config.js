@@ -22,7 +22,7 @@ var Config = (function () {
 	_createClass(Config, [{
 		key: 'db',
 		get: function () {
-			return this.productionEnv ? 'mongodb://$(this._mongodbUsername):$(this._mongodbPassword)@ds063889.mongolab.com:63889/$(this._mongodbName)' : 'mongodb://localhost/karma';
+			return this.productionEnv ? 'mongodb://' + this._mongodbUsername + ':' + this._mongodbPassword + '@ds063889.mongolab.com:63889/' + this._mongodbName : 'mongodb://localhost/karma';
 		}
 	}, {
 		key: 'port',

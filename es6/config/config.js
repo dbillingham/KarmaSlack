@@ -10,7 +10,7 @@ export default class Config {
 	
 	get db(){		
 		return this.productionEnv ?
-			`mongodb://$(this._mongodbUsername):$(this._mongodbPassword)@ds063889.mongolab.com:63889/$(this._mongodbName)`:
+			`mongodb://${this._mongodbUsername}:${this._mongodbPassword}@ds063889.mongolab.com:63889/${this._mongodbName}`:
 			'mongodb://localhost/karma';
 	}
 	
