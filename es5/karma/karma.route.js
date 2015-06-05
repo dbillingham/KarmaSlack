@@ -34,6 +34,11 @@ var KarmaRoute = (function () {
 		value: function _init() {
 			var _this = this;
 
+			this._app.post('/karma2', function (req, res) {
+				res.send('ssss');
+			});
+			return;
+
 			this._app.post('/karma', function (req, res) {
 
 				/*
