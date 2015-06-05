@@ -29,14 +29,18 @@ var KarmaService = (function () {
 
 			return new Promise(function (res, rej) {
 
-				_karmaModelJs2["default"].create({
+				return _karmaModelJs2["default"].create({
 					"teamId": teamId,
 					"userId": userId,
 					"fromUserId": fromUserId
 				}).then(function () {
 					return _this.userCount(teamId, userId, "increased").then(function (data) {
-						return res(data);
+						res(data);
+					})["catch"](function (err) {
+						rej("Error retrieving karma for <@" + userId + ">.");
 					});
+				}, function () {
+					rej("Error adding karma for <@" + userId + ">.");
 				});
 			});
 		}
@@ -65,6 +69,8 @@ var KarmaService = (function () {
 					return _this2.userCount(teamId, userId, "decreased").then(function (data) {
 						return res(data);
 					});
+				})["catch"](function () {
+					rej("Error removing karma for <@" + userId + ">.");
 				});
 			});
 
@@ -90,10 +96,12 @@ var KarmaService = (function () {
 					var responseText = "<@" + userId + "> has a karma of " + collection.length + ".";
 
 					if (incDec) {
-						responseText = "<@" + userId + ">s karma has " + incDec + " to " + collection.length + ".";
+						responseText = "<@" + userId + "> has " + incDec + " their karma to " + collection.length + ".";
 					}
 
 					res(responseText);
+				})["catch"](function () {
+					rej("Error retrieving karma for <@" + userId + ">.");
 				});
 			});
 		}
@@ -111,9 +119,11 @@ var KarmaService = (function () {
 
 					for (var user = 0, len = collection.length; user < len; user++) {
 						var element = collection[user];
-						responseText += " <@" + element._id + "> has a karma of " + element.count + ". \n";
+						responseText += "" + (user + 1) + ". <@" + element._id + "> has a karma of " + element.count + ". \n";
 					}
 					res(responseText);
+				})["catch"](function () {
+					rej("Error retrieving karma for team.");
 				});
 			});
 		}

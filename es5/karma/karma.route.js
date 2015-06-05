@@ -106,11 +106,11 @@ var KarmaRoute = (function () {
 		key: '_helpCommand',
 		value: function _helpCommand(slackData, res) {
 			var slackResponse = 'How to use karma:';
-			slackResponse += '\n Positive karma = karma: @user ++';
-			slackResponse += '\n Negative karma = karma: @user --';
-			slackResponse += '\n User karma = karma: @user';
-			slackResponse += '\n Team karma = karma: @everyone';
-			slackResponse += '\n Setup karma = karma: init {';
+			slackResponse += '\n Positive karma = ' + slackData.triggerWord + ': @user ++';
+			slackResponse += '\n Negative karma = ' + slackData.triggerWord + ': @user --';
+			slackResponse += '\n User karma = ' + slackData.triggerWord + ': @user';
+			slackResponse += '\n Team karma = ' + slackData.triggerWord + ': @everyone';
+			slackResponse += '\n Setup karma = ' + slackData.triggerWord + ': init {';
 			slackResponse += '\n  "incomingWebhookUrl": "https://hooks.slack.com/services/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",';
 			slackResponse += '\n  "outgoingToken": "25LnEy4vXHEi88Plrpvg6htP"';
 			slackResponse += '\n }';
@@ -144,7 +144,7 @@ var KarmaRoute = (function () {
 					_this2._slackService.sendResponse(slackData, data, res);
 				});
 			})['catch'](function () {
-				_this2._slackService.sendResponse(slackData, 'Invalid init JSON. For help see; karma: ?', res);
+				_this2._slackService.sendResponse(slackData, 'Invalid init JSON. For help see; ' + slackData.triggerWord + ': ?', res);
 			});
 		}
 	}, {
@@ -158,6 +158,8 @@ var KarmaRoute = (function () {
 
 				_this3._karmaService.add(slackData.teamId, userId, slackData.userId).then(function (data) {
 					_this3._slackService.sendResponse(slackData, data, res);
+				})['catch'](function (err) {
+					_this3._slackService.sendResponse(slackData, err, res);
 				});
 			})['catch'](function (err) {
 				_this3._slackService.sendResponse(slackData, err, res);

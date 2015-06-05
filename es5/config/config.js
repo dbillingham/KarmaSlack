@@ -13,22 +13,26 @@ var Config = (function () {
 		_classCallCheck(this, Config);
 
 		this._env = process.env.NODE_ENV || 'development';
+		this._port = process.env.PORT || '3000';
+		this._mongodbName = process.env.MONGODB_NAME || 'karmatest';
+		this._mongodbUsername = process.env.MONGODB_USERNAME || 'trunk';
+		this._mongodbPassword = process.env.MONGODB_PASSWORD || 'trunk';
 	}
 
 	_createClass(Config, [{
 		key: 'db',
 		get: function () {
-			return this._env === 'development' ? 'mongodb://localhost/karma' : 'mongodb://tax:taxistaxing@ds063889.mongolab.com:63889/karma';
+			return this.productionEnv ? 'mongodb://$(this._mongodbUsername):$(this._mongodbPassword)@ds063889.mongolab.com:63889/$(this._mongodbName)' : 'mongodb://localhost/karma';
 		}
 	}, {
 		key: 'port',
 		get: function () {
-
-			if (process.env.PORT) {
-				return process.env.PORT;
-			}
-
-			return this._env === 'development' ? '3000' : 80;
+			return this._port;
+		}
+	}, {
+		key: 'productionEnv',
+		get: function () {
+			return this._env === 'production';
 		}
 	}]);
 

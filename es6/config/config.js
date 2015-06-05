@@ -2,20 +2,23 @@ export default class Config {
 	
 	constructor() {
 		this._env = process.env.NODE_ENV || 'development';
+		this._port = process.env.PORT || '3000';
+		this._mongodbName = process.env.MONGODB_NAME || 'karmatest';
+		this._mongodbUsername = process.env.MONGODB_USERNAME || 'trunk';
+		this._mongodbPassword = process.env.MONGODB_PASSWORD || 'trunk';
 	}
 	
 	get db(){		
-		return (this._env === 'development') ? 
-			'mongodb://localhost/karma' :
-			'mongodb://tax:taxistaxing@ds063889.mongolab.com:63889/karma';
+		return this.productionEnv ?
+			`mongodb://$(this._mongodbUsername):$(this._mongodbPassword)@ds063889.mongolab.com:63889/$(this._mongodbName)`:
+			'mongodb://localhost/karma';
 	}
 	
-	get port(){	
-		
-		if(process.env.PORT){
-			return process.env.PORT;
-		}
-			
-		return (this._env === 'development') ? '3000' : 80;
+	get port(){
+		return this._port;
 	}	
+	
+	get productionEnv(){
+		return (this._env === 'production');
+	}
 }

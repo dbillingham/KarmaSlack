@@ -21,7 +21,7 @@ mongooseService.init();
 
 let expressService = new ExpressService(config);
 let configService = new ConfigService();
-let slackService = new SlackService(configService);
+let slackService = new SlackService(configService, config);
 let karmaService = new KarmaService();
 let karmaRoute = new KarmaRoute(expressService, configService, slackService, karmaService);
 

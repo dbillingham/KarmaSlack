@@ -15,10 +15,11 @@ var _slackNode = require('slack-node');
 var _slackNode2 = _interopRequireDefault(_slackNode);
 
 var SlackService = (function () {
-	function SlackService(configService) {
+	function SlackService(configService, config) {
 		_classCallCheck(this, SlackService);
 
 		this._configService = configService;
+		this._config = config;
 	}
 
 	_createClass(SlackService, [{
@@ -29,7 +30,7 @@ var SlackService = (function () {
 		value: function parseJson(str) {
 
 			return new Promise(function (res, rej) {
-				console.log(str);
+
 				try {
 					str = str.replace(/\\"/g, '');
 					res(JSON.parse(str));
@@ -71,35 +72,41 @@ var SlackService = (function () {
 		//Send slack response
 
 		value: function sendResponse(slackData, message, res) {
+			var _this2 = this;
 
 			if (!message) {
-				message = 'Invalid Command. For help see; karma: ?';
+				message = 'Invalid Command. For help see; ' + slackData.triggerWord + ': ?';
 			}
 
-			//res.send(message);
-			//return;
+			if (this._config.productionEnv) {
+				(function () {
 
-			var slackRes = new _slackNode2['default']();
+					var slackRes = new _slackNode2['default']();
 
-			this._configService.getConfig(slackData.teamId).then(function (data) {
+					_this2._configService.getConfig(slackData.teamId).then(function (data) {
 
-				//data.incomingWebhookUrl = "https://hooks.slack.com/services/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";
+						//data.incomingWebhookUrl = "https://hooks.slack.com/services/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";
 
-				if (data.incomingWebhookUrl) {
+						if (data.incomingWebhookUrl) {
 
-					slackRes.setWebhook(data.incomingWebhookUrl);
+							slackRes.setWebhook(data.incomingWebhookUrl);
 
-					slackRes.webhook({
+							slackRes.webhook({
 
-						channel: '#' + slackData.channelName,
-						username: 'karmabot',
-						text: message
-					}, function (err, response) {
+								channel: '#' + slackData.channelName,
+								username: 'karmabot',
+								text: message
+							}, function (err, response) {
 
-						console.log(response);
+								console.log(response);
+							});
+						}
 					});
-				}
-			});
+				})();
+			} else {
+				res.send(message.toString());
+				return;
+			}
 		}
 	}]);
 

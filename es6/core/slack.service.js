@@ -2,9 +2,10 @@ import Slack from 'slack-node';
 
 export default class SlackService {
 	
-	constructor(configService) {
+	constructor(configService, config) {
 		
 		this._configService = configService;
+		this._config = config;
 	}
 	
 	//Parse json data
@@ -12,7 +13,7 @@ export default class SlackService {
 	parseJson(str){	
 			
 		return new Promise((res,rej) =>{
-			console.log(str);
+
 			try{
 				str = str.replace(/\\"/g, '');
 				res(JSON.parse(str));
@@ -52,32 +53,35 @@ export default class SlackService {
 	sendResponse(slackData, message, res){
 	  
 	  	if(!message){
-			message = "Invalid Command. For help see; karma: ?";
+			message = `Invalid Command. For help see; ${slackData.triggerWord}: ?`;
 		}
 		
-		//res.send(message);
-		//return;
-		
-		let slackRes = new Slack();
-		
-		this._configService.getConfig(slackData.teamId).then((data)=>{
+		if(this._config.productionEnv){
 			
-			//data.incomingWebhookUrl = "https://hooks.slack.com/services/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";
+			let slackRes = new Slack();
 			
-			if(data.incomingWebhookUrl){
+			this._configService.getConfig(slackData.teamId).then((data)=>{
 				
-				slackRes.setWebhook(data.incomingWebhookUrl);
-			
-				slackRes.webhook({
+				//data.incomingWebhookUrl = "https://hooks.slack.com/services/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";
+				
+				if(data.incomingWebhookUrl){
 					
-				  channel: "#" + slackData.channelName,
-				  username: "karmabot",
-				  text: message
-				}, (err, response) => {
-					
-				  console.log(response);
-				});
-			}
-		});
+					slackRes.setWebhook(data.incomingWebhookUrl);
+				
+					slackRes.webhook({
+						
+					  channel: "#" + slackData.channelName,
+					  username: "karmabot",
+					  text: message
+					}, (err, response) => {
+						
+					  console.log(response);
+					});
+				}
+			});
+		} else {
+			res.send(message.toString());
+			return;
+		}
 	}
 }

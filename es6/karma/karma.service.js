@@ -9,17 +9,23 @@ export default class KarmaService {
 	//Add Karma record
 	
 	add(teamId, userId, fromUserId){		
-
+		
 		return new Promise((res,rej) =>{
 			
-			KarmaModel.create({
+			return KarmaModel.create({
 				"teamId": teamId,
 				"userId": userId,
 				"fromUserId": fromUserId
 			})
-			.then(() => {		
+			.then(() => {
 				return this.userCount(teamId, userId, "increased")
-						.then((data) => res(data));
+						.then((data) => {
+							res(data);
+						}).catch((err)=>{
+							rej(`Error retrieving karma for <@${userId}>.`);
+						});
+			},()=>{
+				rej(`Error adding karma for <@${userId}>.`);
 			});
 		});
 	}
@@ -43,6 +49,8 @@ export default class KarmaService {
 				}		
 				return this.userCount(teamId, userId, "decreased")
 						.then((data) => res(data));
+			}).catch(()=>{
+				rej(`Error removing karma for <@${userId}>.`);
 			});
 		});
 		
@@ -67,10 +75,12 @@ export default class KarmaService {
 				var responseText = `<@${userId}> has a karma of ${collection.length}.`; 		 
 		
 				if(incDec){
-					responseText = `<@${userId}>s karma has ${incDec} to ${collection.length}.`;
+					responseText = `<@${userId}> has ${incDec} their karma to ${collection.length}.`;
 				}
 				
 				res(responseText);
+			}).catch(()=>{
+				rej(`Error retrieving karma for <@${userId}>.`);
 			});
 		});
 	}
@@ -87,9 +97,11 @@ export default class KarmaService {
 				
 				for (let user = 0, len = collection.length; user < len; user++) {
 					let element = collection[user];
-					responseText += ` <@${element._id}> has a karma of ${element.count}. \n`;
+					responseText += `${user+1}. <@${element._id}> has a karma of ${element.count}. \n`;
 				}
 				res(responseText);
+			}).catch(()=>{
+				rej('Error retrieving karma for team.');
 			});
 		});
 	}

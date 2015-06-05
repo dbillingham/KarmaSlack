@@ -85,11 +85,11 @@ export default class KarmaRoute{
 	
 	_helpCommand(slackData, res){
 		let slackResponse = "How to use karma:";
-			slackResponse += "\n Positive karma = karma: @user ++";
-			slackResponse += "\n Negative karma = karma: @user --";
-			slackResponse += "\n User karma = karma: @user";
-			slackResponse += "\n Team karma = karma: @everyone";
-			slackResponse += "\n Setup karma = karma: init {";
+			slackResponse += `\n Positive karma = ${slackData.triggerWord}: @user ++`;
+			slackResponse += `\n Negative karma = ${slackData.triggerWord}: @user --`;
+			slackResponse += `\n User karma = ${slackData.triggerWord}: @user`;
+			slackResponse += `\n Team karma = ${slackData.triggerWord}: @everyone`;
+			slackResponse += `\n Setup karma = ${slackData.triggerWord}: init {`;
 			slackResponse += "\n  \"incomingWebhookUrl\": \"https://hooks.slack.com/services/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\",";
 			slackResponse += "\n  \"outgoingToken\": \"25LnEy4vXHEi88Plrpvg6htP\"";
 			slackResponse += "\n }";
@@ -124,18 +124,21 @@ export default class KarmaRoute{
 					});
 					
 			}).catch(()=>{
-				this._slackService.sendResponse(slackData, "Invalid init JSON. For help see; karma: ?", res);
+				this._slackService.sendResponse(slackData, `Invalid init JSON. For help see; ${slackData.triggerWord}: ?`, res);
 			});
 	}
 	
 	_posCommand(slackData, res){
+											
 		this._slackService.authenticate(slackData.teamId, slackData.token).then(()=>{
 
 			let userId = KarmaRegex.userIdPattern.exec(slackData.text)[1];
 			
 			this._karmaService.add(slackData.teamId, userId, slackData.userId)
-				.then((data)=>{			
+				.then((data)=>{	
 					this._slackService.sendResponse(slackData, data, res);
+				}).catch((err)=>{	
+					this._slackService.sendResponse(slackData, err, res);
 				});
 				
 		}).catch((err)=>{			
