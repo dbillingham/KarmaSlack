@@ -3,3 +3,9 @@ git add -A
 git commit -m "comment"
 heroku login
 git push heroku master
+
+fetch from github
+git pull github master
+
+push to github
+git push github master
