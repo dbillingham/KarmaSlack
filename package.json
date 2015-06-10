@@ -2,7 +2,7 @@
   "name": "karma",
   "version": "1.0.0",
   "description": "Karma add-on for slack",
-  "main": "app.js",
+  "main": "es5/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
