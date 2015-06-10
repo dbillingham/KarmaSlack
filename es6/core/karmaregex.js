@@ -21,11 +21,11 @@ class KarmaRegex {
 	}
 	
 	get posPattern() {
-		return /((<@)(.*)(> )(\+\+))/;
+		return /((<@)(.*)(> ?)(\+\+))/;
 	}
 	
 	get negPattern() {
-		return /((<@)(.*)(> )(\-\-))/;
+		return /((<@)(.*)(> ?)(\-\-))/;
 	}
 }
 
