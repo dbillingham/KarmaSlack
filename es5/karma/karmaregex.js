@@ -41,12 +41,12 @@ var KarmaRegex = (function () {
 	}, {
 		key: "posPattern",
 		get: function () {
-			return /((<@)(.*)(> )(\+\+))/;
+			return /((<@)(.*)(> ?)(\+\+))/;
 		}
 	}, {
 		key: "negPattern",
 		get: function () {
-			return /((<@)(.*)(> )(\-\-))/;
+			return /((<@)(.*)(> ?)(\-\-))/;
 		}
 	}]);
 
